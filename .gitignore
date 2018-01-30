@@ -39,5 +39,4 @@ Resease/
 Debug/
 .vs/
 *.opendb
-*.vcxproj
-*.vcxproj.filters
+
