@@ -37,5 +37,6 @@
 *.ilk
 Resease/
 Debug/
+.vs/
 *.opendb
 
