@@ -38,5 +38,6 @@
 Resease/
 Debug/
 .vs/
+.vcxproj/
 *.opendb
 
