@@ -39,3 +39,9 @@ Resease/
 Debug/
 *.opendb
 
+*.suo
+*.db
+*.ipch
+*.sln
+*.vcxproj
+*.filters
