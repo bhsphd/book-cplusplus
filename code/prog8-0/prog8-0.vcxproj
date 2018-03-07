@@ -115,13 +115,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="SList.cpp" />
     <ClCompile Include="MyStr8_2_1.cpp" />
     <ClCompile Include="prog8-0.cpp" />
+    <ClCompile Include="Stack8_0.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SList.h" />
     <ClInclude Include="MyStr8_2_1.h" />
+    <ClInclude Include="Stack8_0.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -134,7 +134,7 @@ int main() {
 		s3 = s1 + s2;
 	}
 
-	{//8.3.6节
+	{//8.3.6
 		SList<int> l; //定义一个存放整型元素的链表l
 		int val;
 		// TODO: 书中输入方向搞反
@@ -147,6 +147,10 @@ int main() {
 		cout << l << endl; //打印输出10 20 25 30
 		l.erase(25); //删除元素25
 		cout << l << endl; //打印输出10 20 30
+	}
+
+	{//8.4.2
+
 	}
 	system("pause");
 }
