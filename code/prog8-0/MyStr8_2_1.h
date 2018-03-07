@@ -16,6 +16,9 @@ public:
 	//8.2.2节
 	MyStr& operator=(const MyStr &rhs);
 
+	//8.2.3节
+	MyStr& operator=(MyStr &&rhs);
+
 	//辅助函数声明
 	friend ostream& operator<<(ostream &, const MyStr &);//打印字符串
 	friend MyStr operator+(const MyStr &, const MyStr &);//字符串相加

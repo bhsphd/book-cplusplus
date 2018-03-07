@@ -21,9 +21,15 @@
     <ClCompile Include="MyStr8_2_1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyStr8_2_1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,7 @@
 #include<iostream>
 #include<memory>
 #include"MyStr8_2_1.h"
+#include"SList.h"
 using namespace std;
 
 //8.1.2
@@ -122,6 +123,30 @@ int main() {
 	{//8.2.2
 		MyStr s1("dynamic"), s2(s1), s3;
 		s3 = s1;
+	}
+
+	{//8.2.3
+		MyStr s1("move "), s2("constructor");
+		MyStr s3(s1 + s2);
+	}
+	{//8.2.3
+		MyStr s1("move "), s2("assignment"), s3;
+		s3 = s1 + s2;
+	}
+
+	{//8.3.6节
+		SList<int> l; //定义一个存放整型元素的链表l
+		int val;
+		// TODO: 书中输入方向搞反
+		while (cin >> val) { //输入10 20 30三个数据
+			l.push_back(val); //依次尾插到链表l中
+		}
+		cout << l << endl; //打印输出10 20 30
+		Node<int> *pos = l.find(20); //查找元素20所在的结点指针
+		l.insert(pos, 25); //元素20后面插入元素为25的新结点
+		cout << l << endl; //打印输出10 20 25 30
+		l.erase(25); //删除元素25
+		cout << l << endl; //打印输出10 20 30
 	}
 	system("pause");
 }

@@ -31,6 +31,17 @@ MyStr& MyStr::operator=(const MyStr &rhs) {
 	}
 	return *this;
 }
+//8.2.3节
+MyStr& MyStr::operator=(MyStr &&rhs) {
+	if (this != &rhs) { //这行代码不能缺少，避免自身赋值引发内容错误
+		delete[] m_buff;
+		m_length = rhs.m_length;
+		m_buff = rhs.m_buff;
+		rhs.m_buff = nullptr; //将临时对象指针成员置为空指针
+		rhs.m_length = 0;
+	}
+	return *this;
+}
 
 ostream& operator <<(ostream& os, const MyStr& s) {
 	for (int i = 0; i < s.m_length; ++i)
