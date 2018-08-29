@@ -6,12 +6,14 @@
 #include <vector>
 
 using namespace std;
+//ostream print(ostream) {}
 
 int main() {
 	{
 		ifstream in1, in2; //定义两个文件输入流对象（见10.3.1节，第220页）
 		//in1 = in2; //错误：不能对流对象赋值
-		ostream print(ostream); //错误：ostream 对象不支持复制
+		//ostream print(ostream); //错误：ostream 对象不支持复制
+		//print(std::cout);
 	}
 
 	{
