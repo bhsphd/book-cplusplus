@@ -19,7 +19,7 @@
 
 \mode<presentation> {
 \usetheme{Madrid}
-\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{footline}[frame number] % To remove the footer line in all slides
 \setbeamercolor{page number in head/foot}{fg=blue}
 \setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides
 }
@@ -111,7 +111,7 @@
 
 %--------------------
 
-\begin{frame}[fragile]{~} % Table of contents slide, comment this block out to remove it
+\begin{frame}[fragile,c]{~} % Table of contents slide, comment this block out to remove it
 
 \begin{block}{学习目标}
 \begin{enumerate}
@@ -122,23 +122,23 @@
 \end{block}
 
 % ------功能模块说明，请注释掉-------
-\begin{columns}[t]
-\column{0.15\textwidth}
-\begin{block}{概念}
-\end{block}
-\column{0.15\textwidth}
-\begin{blueblock}{代码}
-\end{blueblock}
-\column{0.15\textwidth}
-\begin{yellowblock}{说明}
-\end{yellowblock}
-\column{0.15\textwidth}
-\begin{greenblock}{问题/答案}
-\end{greenblock}
-\column{0.15\textwidth}
-\begin{redblock}{注意}
-\end{redblock}
-\end{columns}
+%\begin{columns}[t]
+%\column{0.15\textwidth}
+%\begin{block}{概念}
+%\end{block}
+%\column{0.15\textwidth}
+%\begin{blueblock}{代码}
+%\end{blueblock}
+%\column{0.15\textwidth}
+%\begin{yellowblock}{说明}
+%\end{yellowblock}
+%\column{0.15\textwidth}
+%\begin{greenblock}{问题/答案}
+%\end{greenblock}
+%\column{0.15\textwidth}
+%\begin{redblock}{注意}
+%\end{redblock}
+%\end{columns}
 % ------功能模块说明，请注释掉-------
 
 \end{frame}
@@ -382,7 +382,8 @@ const T& maxElem(T(&arr)[size]) {
 \begin{blueblock}{\texttt{maxElem}函数模板实例化}
 \begin{lstlisting}
 int arr[10] = {1,8,5,3};
-int x = maxElem(arr); // 或者显式调用 maxElem<int,10>(arr);
+int x = maxElem(arr); 
+// 或者显式调用 maxElem<int,10>(arr);
 \end{lstlisting}
 \end{blueblock}
 编译器将会生成如下版本的函数：
@@ -555,11 +556,11 @@ const char* const & getMax(const char* const &a, const char* const &b){
 
 \column{0.3\textwidth}
 \begin{yellowblock}{说明}
-模板实参\texttt{T}的类型为\texttt{const char*}，函数形参\texttt{a}和\texttt{b}分别为一个指向\texttt{const char}对象的\texttt{const}指针的引用，函数体里面的操作是两个字符串值的比较
+模板参数列表为空，表明将显式提供所有模板实参
 \end{yellowblock}
 \vspace{-2mm}
 \begin{yellowblock}{说明}
-模板参数列表为空，表明将显式提供所有模板实参
+模板实参\texttt{T}的类型为\texttt{const char*}，函数形参\texttt{a}和\texttt{b}分别为一个指向\texttt{const char}对象的\texttt{const}指针的引用，函数体里面的操作是两个字符串值的比较
 \end{yellowblock}
 \vspace{-2mm}
 \begin{redblock}<2->{注意}
@@ -1518,6 +1519,12 @@ $\bullet$ 如果查找失败则返回\texttt{-1}
 \end{frame}
 
 %-----------------
+
+\begin{frame}[c]{~}
+\begin{center}
+  \huge{本章结束}
+\end{center}
+\end{frame}
 
 %----------------------------------------------------------------------------------------
 
