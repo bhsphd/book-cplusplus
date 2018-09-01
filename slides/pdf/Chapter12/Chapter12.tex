@@ -1,0 +1,827 @@
+%!TEX program = xelatex
+\documentclass[UTF8,aspectratio=43,10pt,t]{ctexbeamer}
+
+\mode<presentation> {
+\usetheme{Madrid}
+\setbeamertemplate{footline}[frame number] %设置页码
+\setbeamercolor{page number in head/foot}{fg=blue} %设置页码颜色
+\setbeamertemplate{navigation symbols}{} %去除控件
+}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{listings}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+%设置图片存放路径
+\graphicspath{{figures/}}
+
+%用户自定义区块环境
+\usepackage{setspace}
+\definecolor{hanblue}{rgb}{0.27, 0.42, 0.81}
+\definecolor{indiagreen}{rgb}{0.07, 0.53, 0.03}
+\definecolor{indianred}{rgb}{0.8, 0.36, 0.36}
+\definecolor{indianyellow}{rgb}{0.89, 0.66, 0.34}
+\definecolor{babypink}{rgb}{0.96, 0.76, 0.76}
+\definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
+\setbeamerfont{block title}{size=\small}
+\setbeamerfont{block body}{size=\footnotesize}
+\newenvironment<>{blueblock}[1]{
+    \setbeamercolor{block title}{fg=white,bg=hanblue}
+    \begin{block}#2{#1}}{\end{block}}
+\newenvironment<>{greenblock}[1]{
+    \setstretch{1.3}\setbeamercolor{block title}{fg=white,bg=indiagreen}
+    \begin{block}#2{#1}}{\end{block}}
+\newenvironment<>{redblock}[1]{
+    \setstretch{1.3}\setbeamercolor{block title}{fg=white,bg=indianred}
+    \begin{block}#2{#1}}{\end{block}}
+\newenvironment<>{yellowblock}[1]{
+    \setstretch{1.3}\setbeamercolor{block title}{fg=white,bg=indianyellow}
+    \begin{block}#2{#1}}{\end{block}}
+
+\lstset{language=C++,
+columns=flexible,
+basicstyle=\footnotesize\ttfamily,                                      % 设定代码字体、大小
+%numbers=left,xleftmargin=2em,framexleftmargin=2em,                   % 在左侧显示行号
+%numberstyle=\color{darkgray},                                        % 设定行号格式
+keywordstyle=\color{blue},                                            % 设定关键字格式
+commentstyle=\color{ao(english)},                                     % 设置代码注释的格式
+stringstyle=\color{brown},                                            % 设置字符串格式
+%showstringspaces=false,                                              % 控制是否显示空格
+%frame=lines,                                                         % 控制外框
+breaklines,                                                           % 控制是否折行
+postbreak=\space,                                                     % 控制折行后显示的标识字符
+breakindent=5pt,                                                      % 控制折行后缩进数量
+emph={size\_t,array,deque,list,map,queue,set,stack,vector,string,pair,tuple}, % 非内置类型
+emphstyle={\color{teal}},
+escapeinside={(*@}{@*)},
+}
+
+\title[\textit{C++程序设计：第十二章}]{第十二章~工具与技术}
+
+% \author
+%     []
+%     {}
+
+\date {}
+
+% \institute
+%     {}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}
+	{目录}
+	\tableofcontents
+\end{frame}
+
+\begin{frame} {前言}
+	\begin{yellowblock}{学习目标}
+		\begin{enumerate}
+			\item 理解并掌握命名空间的使用方法；
+			\item 掌握异常处理的使用方法；
+			\item 理解和使用多重继承以及虚继承；
+			\item 了解嵌套类和运行时类型识别的使用方法；
+			\item 学会使用标准库中一些特殊工具，包括tuple类型、bitset类型以及对日期和时间的处理。
+		\end{enumerate}
+	\end{yellowblock}
+\end{frame}
+
+\section{命名空间}
+\begin{frame}[fragile]{命名空间}
+	将大量由于共同开发等原因使用的全局名字引入到同一作用域时，不可避免会产生命名冲突，例如：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}{定义相同名称的不同函数}
+			\begin{lstlisting}[moreemph={T}]
+//Foo.h
+int doSomething(int x, int y) {
+    return x * y;
+}
+//Goo.h
+int doSomething(int x, int y) {
+    return x + y;
+}
+//main.cpp
+#include "Foo.h"
+#include "Goo.h"
+int main() {
+    int x = doSomething(2, 1); //错误：doSomething已经被定义
+}
+            \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ 用户先在不同头文件里定义了同名的doSomething函数\\
+			$\bullet$ main.cpp文件中的代码在引用了均包含doSomething函数的不同头文件后，试图调用doSomething，引发编译错误\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\subsection{定义命名空间}
+\begin{frame}[fragile]{命名空间}{定义命名空间}
+	\begin{block}
+		{命名空间}
+		命名空间可以将全局作用域内有效的类名、函数名或对象名组织到一个名字下面。即将全局作用域分割为子作用域，每个子域称为一个命名空间。
+	\end{block}
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}{命名空间示例}
+			\begin{lstlisting}[moreemph={T}]
+//Foo.h
+namespace Foo {
+int doSomething(int x, int y);
+class X{ /*...*/ };
+}
+            \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ 定义一个命名空间以关键字namespace开始，后面跟命名空间的名字\\
+			$\bullet$ 主体由一对花括号括起来的声明和定义组成\\
+			$\bullet$ 左侧代码定义了一个名为Foo的命名空间，该命名空间包括两个成员：一
+			个函数和一个类\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{命名空间}{定义命名空间}
+	一个命名空间是可以不连续的。通常情况下，我们将命名空间成员声明放到头文件中，实现放在源文件，从而达到接口和实现分离的目的。例如：
+
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}{命名空间示例}
+			\begin{lstlisting}[moreemph={T}]
+//Foo.h
+namespace Foo {
+int doSomething(int x, int y);
+class X{ /*...*/ };
+}
+
+//Foo.cpp
+namespace Foo {
+X g_x;
+int doSomething(int x, int y) { /*...*/ }
+}
+            \end{lstlisting}
+		\end{blueblock}
+		\begin{blueblock}{外部访问命名空间}
+			\begin{lstlisting}[moreemph={T}]
+int x = Foo::doSomething(2, 1);
+            \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ 已经在头文件Foo.h中定义了命名空间Foo\\
+			$\bullet$ Foo.cpp 源文件中，打开命名空间Foo，同时为它新增成员g\_x以及函数doSomething的实现\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{命名空间}{定义命名空间}
+	在命名空间外部访问它内部的成员时，必须要明确指出成员所属的命名空间：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}{外部访问命名空间}
+			\begin{lstlisting}[moreemph={T}]
+int x = Foo::doSomething(2, 1);
+            \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ 调用命名空间Foo中的成员doSomething\\
+		\end{yellowblock}
+		\onslide<2->{
+			\begin{redblock}
+				{提示}
+				一个命名空间可以定义在全局作用域内，也可以定义在其它命名空间内，但不能定义在
+				函数或类的内部。
+			\end{redblock}
+		}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{命名空间}{定义命名空间}
+	\begin{block}
+		{命名空间的嵌套}
+		在一个命名空间内部定义另外一个命名空间
+	\end{block}
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}{命名空间的嵌套示例}
+			\begin{lstlisting}[moreemph={T}]
+namespace Wang {
+    namespace Goo {
+        int doSomething(int x, int y);
+    }
+    namespace Boo {
+        class Y {/*...*/};
+    }
+}
+            \end{lstlisting}
+		\end{blueblock}
+		\begin{blueblock}{嵌套命名空间的访问}
+			\begin{lstlisting}[moreemph={T}]
+int x = Wang::Goo::doSomething(2, 1);
+            \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ 上面的代码在命名空间Wang 的内部分别定义了另外两个命名空间：Goo 和Boo\\
+			$\bullet$ 要访问内层命名空间的名字，必须要使用嵌套的命名空间名字\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{命名空间}{定义命名空间}
+	C++11 标准新增\textbf{内联命名空间（inline namespace）}，用来指示命名空间中的名称可以\alert{在外层命名空间中直接使用}。当一个程序的新版本发布时，我们使用内联命名空间，例如：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}{内联命名空间示例}
+			\begin{lstlisting}[moreemph={T}]
+namespace FirstVersion {
+    void fun(int);
+}
+inline namespace SecondVersion {
+    void fun(int);
+    void fun(double);
+}
+
+FirstVersion::fun(1); //调用早期版本fun函数
+fun(1); //调用当前版本fun函数
+fun(1.0); //调用当前版本中新增的fun 函数
+            \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ 关键字inline 必须出现在一个命名空间第一次定义的地方\\
+			$\bullet$ 命名空间SecondVersion是内联的，因此它的成员可以在外层作用域（全局作用域）直接访问\\
+			$\bullet$ 如果要访问早期版本（非内联）的成员，则必须要指明所属的版本名字\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{命名空间}{定义命名空间}
+	定义在全局作用域中的名字也是定义在\textbf{全局命名空间}中的。我们可以直接使用\alert{作用域操作符}访问全局命名空间的成员：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}{访问全局命名空间成员}
+			\begin{lstlisting}[moreemph={T}]
+::member_name
+            \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ 全局命名空间是隐式声明的，每个文件将全局作用域内定义的名字添加到全局命名空间中。\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\subsection{使用命名空间}
+\begin{frame}[fragile]{命名空间}{使用命名空间}
+	为了简化如下的繁琐的命名空间成员的访问方式，我们可以使用\textbf{using声明（using declaration）}或\textbf{using指示（using directive）}
+	\begin{blueblock}
+		{繁琐的命名空间成员访问形式}
+		\begin{lstlisting}[moreemph={T}]
+Wang::Goo::doSomething
+        \end{lstlisting}
+	\end{blueblock}
+\end{frame}
+
+\begin{frame}[fragile]{命名空间}{使用命名空间}
+	一条\textbf{using声明}语句用来引用命名空间中的\alert{一个成员}。例如，我们使用using 声明引入标准库命名空间std中成员cout：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{使用using声明}
+			\begin{lstlisting}[moreemph={T}]
+using std::cout; //此声明告诉编译器后续cout属于命名空间std
+cout << "Hello world"; //cout等价于std::cout
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ using声明引入的名字的作用域从声明的地方开始，直到using声明所在的作用域结束处为止\\
+			$\bullet$ 左侧的using声明表明在其作用域范围内，所有的cout都是指std::cout\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{命名空间}{使用命名空间}
+	using 声明一次只能引入命名空间的一个成员，如果要引入一个命名空间内\alert{所有的成员}，我们可以使用\textbf{using指示}:
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{使用using指示}
+			\begin{lstlisting}[moreemph={T}]
+using namespace std;
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ using指示意味着std中所有成员在此处都可见\\
+
+		\end{yellowblock}
+		\only<1>{\begin{redblock}
+				{注意}
+				$\bullet$ 指示可以出现在全局作用域、局部作用域和命名空间作用域中，但是不能出现在类的作用域中\\
+				$\bullet$ using指示的作用域也是从声明的地方开始，直到using语句所在的作用域结束处为止\\
+			\end{redblock}}
+	\end{columns}
+	\only<2>{\begin{redblock}
+			{提示}
+			虽然using 声明只能引入命名空间中的一个成员，但与using指示相比，它\alert{不易引起命名冲突}，是一种更安全的方式。
+		\end{redblock}}
+\end{frame}
+
+\section{异常处理}
+\begin{frame}[fragile]{异常处理}
+	我们很难保证一个大型程序在运行期间不会出现错误，如果出现了错误，程序很可能无法正确运行，甚至会崩溃。\textbf{异常处理（exception handling）}允许我们将\alert{异常检测和解决的过程分离开来}，程序中某一个模块出现了异常不会导致整个程序无法正确运行。
+	C++ 语言提供了异常内部处理机制，该处理机制涉及到三个关键字：
+	\begin{itemize}
+		\item try：检测可能产生异常的语句块
+		\item catch：捕获异常
+		\item throw：抛出异常
+	\end{itemize}
+\end{frame}
+
+\subsection{抛出异常}
+\begin{frame}[fragile]{异常处理}{抛出异常}
+	当程序在运行期间\alert{出现异常}时，我们可以通过throw来\alert{抛出}一个异常。例如，以下函数返回a除以b的结果，如果出现除数为0的情况：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{抛出一个异常}
+			\begin{lstlisting}[moreemph={T}]
+double divide(int a, int b){
+    if (b == 0)
+        throw "Error, division by zero!";
+    return a / b;
+}
+        \end{lstlisting}
+		\end{blueblock}
+		\begin{blueblock}
+			{抛出各种类型的异常}
+			\begin{lstlisting}[moreemph={T}]
+throw -1; // 抛出一个整型数
+throw x; // x为double类型对象
+throw MyException("Fatal Error"); //MyException为一个类类型
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ throw可以抛出\alert{任何类型对象}\\
+			$\bullet$ 通常情况下，抛出的异常为错误的编号、错误描述或用户自定义的异常类对象。\\
+			$\bullet$ 当执行throw语句时，其\alert{后面的语句不会被执行}。程序的控制权将转移到\alert{与之匹配的catch模块}\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\subsection{检测异常}
+\begin{frame}[fragile]{异常处理\small{——检测异常}}
+	C++ 语言通过\textbf{关键字\texttt{try}}来检测可能发生异常的代码。通常情况下，我们\alert{将可能发生异常的代码放到\texttt{try}语句块中}，该语句块中的任何异常都可以被检测到。
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{检测异常}
+			\begin{lstlisting}[moreemph={T}]
+try{
+    divide(a, b); //函数调用语句
+}
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ 一旦在try 语句块内部有异常抛出时，系统检查与该try块关联的catch子句，并寻找\alert{与异常相匹配的catch子句}。\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{异常处理\small{——捕获异常}}
+	最终，我们通过\textbf{catch子句}\alert{捕获异常}，并处理它：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{检测异常}
+			\begin{lstlisting}[moreemph={T}]
+catch (const char *str) {//捕获一个C风格字符串常量对象
+    //任何能够被char *接受的异常都将被捕获
+    cerr << "捕获异常" << str << endl; //cerr为标准错误ostream对象
+}
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ cerr为标准错误ostream对象用于输出程序错误信息。\\
+			$\bullet$ catch语句中的异常声明类似于只包含一个形参的函数形参列表。\\
+			$\bullet$ 异常声明包括类型和名字，其中类型决定了该catch子句能够捕获的异常的类型\\
+			$\bullet$ 能够捕获的错误类型可以为左值引用，但不能为右值引用。\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+
+\subsection{捕获异常}
+%!可能要有图
+\begin{frame}[fragile]{异常处理\small{——捕获异常}}
+	一个包含try、catch和throw的异常处理案例如下:\\
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{异常处理案例}
+			\begin{lstlisting}[moreemph={T}]
+int a = 1, b = 0;
+try {
+    int c = divide(a, b);
+}
+catch (const string &str) {
+    cerr << str << endl;
+}
+catch (const char *str) {
+    cerr << str << endl;
+}
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			异常被抛出后：
+			\begin{enumerate}
+				\item try后面的catch尝试匹配，匹配则处理
+				\item 否则沿着调用链向外层逐层检查
+				\item 无法匹配，则调用terminate终止程序
+			\end{enumerate}
+		\end{yellowblock}
+		\begin{greenblock}
+			{问题}
+			异常被谁捕获？
+		\end{greenblock}
+	\end{columns}
+	\begin{redblock}
+		{注意}
+		通常情况下，异常的类型和catch声明的类型要求严格匹配，但不包括以下情况：1）非常量到常量的转换；2）派生类向基类的转换；3）数组或函数被转换成指向数组元素或函数的指针。
+	\end{redblock}
+\end{frame}
+
+\subsection{使用标准库异常类}
+\begin{frame}[fragile]{异常处理\small{——标准库异常类}}
+	C++标准库提供了\textbf{标准异常类（standard exception）}，使用时需要包含头文件exception。
+	其继承关系如图：
+	\begin{figure}
+		\includegraphics[scale=0.4]{Fig12-1.png}
+	\end{figure}
+	\begin{block}
+		{基类exception}
+		基类exception只定义了默认的构造函数、复制构造函数、赋值运算符、虚析构函数和一个名为\textbf{what}的虚成员。
+	\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{异常处理\small{——标准库异常类}}
+	\textbf{what函数}返回一个const char*，指向一个以null结尾的字符数组，用于提示异常类型。我们可以继承exception类并重载what：\\
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{自定义版本的what成员}
+			\begin{lstlisting}[moreemph={T}]
+struct MyException :public exception {
+    const char* what() const noexcept { return "Ooops!"; }
+};
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{block}
+			{noexcept}
+			C++11标准引入的新关键字，用来指明某个函数\alert{不会抛出异常}
+		\end{block}
+		\only<1>{\begin{yellowblock}
+				{说明}
+				noexcept应置于：\\
+				$\bullet$ 形参列表后面\\
+				$\bullet$ 如修饰成员函数，在const限定符之后，final、override或纯虚函数=0之前\\
+				$\bullet$ 函数的声明和定义处必须都要出现\\
+			\end{yellowblock}}
+		\only<2->{
+			\begin{redblock}
+				{提示}
+				noexcept说明可以优化代码的执行效率。
+			\end{redblock}
+		}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{异常处理\small{——标准库异常类}}
+	下面的代码将抛出一个MyException异常对象，该对象可以被异常声明为\alert{基类exception}类型的catch子句捕获：\\
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{使用MyException对象}
+			\begin{lstlisting}[moreemph={T}]
+try {
+    throw MyException();
+}
+catch (exception &ex) {
+    cerr << ex.what() << endl;
+    }
+\end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+	\end{columns}
+\end{frame}
+
+\section{多重继承与虚继承}
+\subsection{多重继承}
+\begin{frame}[fragile]{多重继承与虚继承\small{——多重继承}}
+	\begin{block}
+		{多重继承}
+		为一个派生类指定多个基类的继承结构称为多重继承
+	\end{block}
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{多重继承}
+			\begin{lstlisting}[moreemph={T}]
+class Mammal {
+public:
+    virtual void feedMilk() {} //母乳喂养
+};
+class WingedAnimal {
+public:
+    virtual void flap() {} //振翅飞翔
+};
+class Bat: public Mammal, public WingedAnimal { };
+        \end{lstlisting}
+		\end{blueblock}
+		\begin{blueblock}
+			{多重继承}
+			\begin{lstlisting}[moreemph={T}]
+Bat b;
+b.feedMilk(); //母乳喂养
+b.flap(); //振翅飞翔
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ Bat类的派生列表中有两个以逗号分隔的基类\\
+			$\bullet$ Bat类对象将具有Mammal和WingedAnimal两种动物的行为\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{多重继承与虚继承\small{——多重继承}}
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{多重继承}
+			\begin{lstlisting}[moreemph={T}]
+class Bat: public Mammal, public WingedAnimal { };
+        \end{lstlisting}
+		\end{blueblock}
+		\begin{blueblock}
+			{调用基类构造函数}
+			\begin{lstlisting}[moreemph={T}]
+Bat::Bat() {} //隐式调用Mammal和WingedAnimal的默认构造函数
+Bat::Bat() :Mammal(), WingedAnimal() {} //显式调用基类的默认构造函数
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ 多重继承的派生类对象的构造函数只能初始化其\alert{直接基类}成员\\
+			$\bullet$ 构造的顺序与\alert{派生列表}中基类出现的先后顺序一致\\
+			$\bullet$ 调用基类的构造函数有\alert{隐式和显式}两种方式\\
+			$\bullet$ 成员析构的顺序与构造的顺序相反\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\subsection{虚继承}
+\begin{frame}[fragile]{多重继承与虚继承\small{——虚继承}}
+	我们将Mammal和WingedAnimal进一步抽象，设计一个公共基类Animal：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{加入公共基类Animal}
+			\begin{lstlisting}[moreemph={T}]
+class Animal {
+protected:
+    int m_age;
+public:
+    Animal(int n = 0) :m_age(n) {}
+    virtual void eat() {}
+};
+class WingedAnimal: public Animal{
+public:
+    virtual void feedMilk() {}
+};
+class Mammal: public Animal{
+public:
+    virtual void flap() {}
+};
+class Bat: public Mammal, public WingedAnimal { };
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{figure}
+			\includegraphics[scale=0.6]{Fig12-2.png}
+		\end{figure}
+		\begin{redblock}
+			{死亡钻石}
+			菱形继承关系造成的二义性问题
+		\end{redblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{多重继承与虚继承\small{——虚继承}}
+	当存在如下调用的时候，会产生二义性问题：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{加入公共基类Animal}
+			\begin{lstlisting}[moreemph={T}]
+Bat b;
+b.eat(); //错误：二义性访问
+Animal a = b; //错误：类型无法转换
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.35\textwidth}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{多重继承与虚继承\small{——虚继承}}
+	C++通过\textbf{虚继承（virtual inheritance）}的机制来解决上述问题：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{加入公共基类Animal}
+			\begin{lstlisting}[moreemph={T}]
+class WingedAnimal: virtual public Animal {/*...*/};
+class Mammal : virtual public Animal {/*...*/};
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			$\bullet$ 通过在派生列表中添加关键字\alert{virtual}来指定虚基类\\
+			$\bullet$ 不论该虚基类在继承体系中出现多少次，在派生类中只包含\alert{唯一一份}共享的虚基类成员\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{多重继承与虚继承\small{——虚继承}}
+	虚继承的基类由\alert{最底层的派生类进行初始化}：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{虚继承对象的构造}
+			\begin{lstlisting}[moreemph={T}]
+class Bat : public Mammal, public WingedAnimal {
+public:
+    Bat() :Animal(1), Mammal(), WingedAnimal(){}
+};
+        \end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			此处初始化顺序如下：\\
+			$\bullet$ Bat类的构造函数提供的初始化列表初始化Animal成员\\
+			$\bullet$ 构造Mammal成员\\
+			$\bullet$ 构造WingedAnimal成员\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
+\section{12.4~嵌套类}
+\begin{frame}[fragile]{嵌套类}
+	\begin{block}
+		{嵌套类}
+		在一个类的内部定义的类
+	\end{block}
+	\begin{yellowblock}
+		{说明}
+		$\bullet$ 嵌套类是\alert{独立}的类，与外层类在语法上没有关联\\
+		$\bullet$ 嵌套类和外层类的访问控制遵循\alert{普通类}之间的访问控制原则\\
+	\end{yellowblock}
+\end{frame}
+
+\subsection{二维数组类}
+\begin{frame}[fragile]{嵌套类\small{——二维数组类}}
+	\begin{greenblock}
+		{任务}
+		实现一个二维数组类，该类可以像普通二维数组那样支持两个下标操作：
+		\begin{lstlisting}[moreemph={T}]
+int arr[2][2];
+arr[0][0] = 1;
+\end{lstlisting}
+	\end{greenblock}
+
+	\begin{greenblock}
+		{存在的难点}
+		C++仅支持一维下标操作符的重载：
+		\begin{lstlisting}[moreemph={T}]
+class Array2D{
+    /*...*/
+    int operator [][](/*...*/); //错误：C++没有运算符[][]
+};
+\end{lstlisting}
+	\end{greenblock}
+
+	\onslide<2>{\begin{yellowblock}
+		{分析}
+		\texttt{arr[0][0]}等价于\texttt{(arr[0])[0]}
+	\end{yellowblock}}
+\end{frame}
+
+
+
+\subsection{二维数组类}
+\begin{frame}[fragile]{嵌套类\small{——二维数组类}}
+	\begin{blueblock}
+		{代码清单12.1~二维数组类}
+		\begin{lstlisting}[moreemph={T}]
+template<typename T>
+class Array2D {
+private:
+    class Array1D {
+        ... //下页内容
+    };
+    size_t m_size; //第一维长度
+    Array1D *m_arr; //元素类型为Array1D
+    public:
+    Array2D(size_t s1, size_t s2) :m_size(s1), m_arr(new Array1D[s1]) {
+        for (int i = 0; i<m_size; i++) {
+            m_arr[i].m_size = s2;
+            m_arr[i].m_arr = new T[s2];
+        }
+    }
+    ~Array2D() { delete[] m_arr; }
+    Array1D & operator[](int idx) { return m_arr[idx]; }
+    size_t size() { return m_size; }
+};
+        \end{lstlisting}
+	\end{blueblock}
+\end{frame}
+
+\begin{frame}[fragile]{嵌套类\small{——二维数组类}}
+    \begin{columns}[T]
+		\column{0.65\textwidth}
+	\begin{blueblock}
+		{代码清单12.1~二维数组类}
+		\begin{lstlisting}[moreemph={T}]
+...//上页内容
+class Array1D {
+    friend class Array2D; //声明为友元类
+public:
+    ~Array1D() { delete[] m_arr; }
+    T & operator[](int idx) { return m_arr[idx]; }
+private:
+    size_t m_size = 0; //第二维长度
+    T *m_arr = nullptr;
+};
+...//上页内容
+\end{lstlisting}
+    \end{blueblock}
+	\begin{blueblock}
+		{使用二维数组}
+		\begin{lstlisting}[moreemph={T}]
+Array2D<int> arr(2, 2);
+arr[0][0] = 1;
+\end{lstlisting}
+    \end{blueblock}
+    \begin{yellowblock}
+		{说明}
+		$\bullet$ 使用嵌套类将Array1D的底层实现隐藏
+	\end{yellowblock}
+\end{frame}
+
+\subsection{通用计算器}
+
+\section{运行时类型识别}
+\subsection{dynamic_cast运算符}
+\subsection{typeid运算符}
+
+\section{union类型}
+\subsection{定义union类型}
+\subsection{使用union类型}
+
+\section{union类型标准库特殊工具}
+\subsection{tuple类型}
+\subsection{bitset类型}
+\subsection{日期和时间}
+
+\end{document}

@@ -162,3 +162,10 @@ $RECYCLE.BIN/
   
 # VisualStudioCode  
 .vscode 
+*.out
+*.aux
+*.nav
+*.snm
+*.gz
+*.toc
+*.vrb
