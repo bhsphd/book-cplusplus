@@ -2434,16 +2434,16 @@ Node<T> * BinaryTree<T>::insert_(Node<T>* &p, const T &value){
 
 \column{0.3\textwidth}
 \begin{block}<2->{先序遍历}
-先访问根结点，然后访问左子树，最后访问右子树\\
+\alert{根结点}-->左子树-->右子树\\
 \texttt{\uncover<3->{8} \uncover<4->{3} \uncover<5->{1} \uncover<6->{6} \uncover<7->{4} \uncover<8->{7} \uncover<9->{10} \uncover<10->{14} \uncover<11->{13}}
 \end{block}
 \begin{block}<12->{中序遍历}
-先访问左子树，然后访问根结点，最后访问右子树\\
+左子树-->\alert{根结点}-->右子树\\
 \texttt{\uncover<13->{1} \uncover<14->{3} \uncover<15->{4} \uncover<16->{6} \uncover<17->{7} \uncover<18->{8} \uncover<19->{10} \uncover<20->{13} \uncover<21->{14}}\\
-\alert{\uncover<22->{中序遍历二叉搜索将得到有序序列}}
+\alert{\uncover<22->{有序序列}}
 \end{block}
 \begin{block}<23->{后序遍历}
-先访问左子树，然后访问右子树，最后访问根结点\\
+左子树-->右子树-->\alert{根结点}\\
 \texttt{\uncover<24->{1} \uncover<25->{3} \uncover<26->{4} \uncover<27->{6} \uncover<28->{7} \uncover<29->{8} \uncover<30->{10} \uncover<31->{13} \uncover<32->{14}}
 \end{block}
 

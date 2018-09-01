@@ -42,3 +42,10 @@ Debug/
 
 *.db
 code/.vs/examples/v14/.suo
+*.aux
+*.log
+*.vrb
+*.nav
+*.toc
+*.snm
+*.synctex
