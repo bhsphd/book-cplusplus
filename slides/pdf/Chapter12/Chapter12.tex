@@ -1223,25 +1223,11 @@ if (typeid(*b) == typeid(Derived)) {/*检查b是否指向Derived类型对象*/}
 \end{frame}
 
 \section{union类型}
-\begin{frame}[fragile]{运行时类型识别\small{——typeid运算符}}
-    typeid常用于比较两个表达式的类型是否相同，或一个表达式的类型是否与指定类型一致：
-	\begin{columns}[T]
-		\column{0.65\textwidth}
-		\begin{blueblock}
-			{typeid比较}
-			\begin{lstlisting}[moreemph={T}]
-Derived *d = new Derived;
-Base *b = d;
-if (typeid(*d) == typeid(*b)) { /*检查d和p是否指向同一类型对象*/}
-if (typeid(*b) == typeid(Derived)) {/*检查b是否指向Derived类型对象*/}
-\end{lstlisting}
-		\end{blueblock}
-		\column{0.3\textwidth}
-		\begin{redblock}
-			{注意}
-			此处typeid作用于*b而非b。\\
-		\end{redblock}
-	\end{columns}
+\begin{frame}[fragile]{12.6~union类型}
+    \begin{block}
+        {union类型}
+        一种特殊的复合数据类型，可以实现一个对象用作多种数据类型使用的作用，例如一个对象既可以用来存储整型数据，又可以用来存储浮点型数据。union类型可以包含多个数据成员，但这些数据成员共享同一段内存空间，空间大小取决于内存占用最大的数据成员类型。使用时只会有一个数据成员处于定义后的激活状态，其他数据成员则处于未定义状态。
+    \end{block}
 \end{frame}
 
 \subsection{定义union类型}
