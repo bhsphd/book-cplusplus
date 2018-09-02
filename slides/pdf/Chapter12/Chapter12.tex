@@ -1286,20 +1286,20 @@ cout << wang.llong_type << endl; //输出20171001001
         \end{yellowblock}
     \end{columns}
     \only<1>{\begin{redblock}
-        {注意}
-        class的大多特征适用于union：\\
-        $\bullet$ 其数据成员可用private、public和protected修饰，默认为public\\
-        $\bullet$ 可以定义成员函数\\
-        但另一些特征union不具备：\\
-        $\bullet$ 不能包含引用类型的数据成员\\
-        $\bullet$ union类不具备继承特性\\
-    \end{redblock}}
+            {注意}
+            class的大多特征适用于union：\\
+            $\bullet$ 其数据成员可用private、public和protected修饰，默认为public\\
+            $\bullet$ 可以定义成员函数\\
+            但另一些特征union不具备：\\
+            $\bullet$ 不能包含引用类型的数据成员\\
+            $\bullet$ union类不具备继承特性\\
+        \end{redblock}}
     \only<2->{\begin{redblock}
-        {注意}
-        另外：\\
-        $\bullet$ 如成员为类类型，状态变化时将调用其构造/析构函数\\
-        $\bullet$ 使用时必须清楚使用的是哪一个成员，错误使用会导致崩溃\\
-    \end{redblock}}
+            {注意}
+            另外：\\
+            $\bullet$ 如成员为类类型，状态变化时将调用其构造/析构函数\\
+            $\bullet$ 使用时必须清楚使用的是哪一个成员，错误使用会导致崩溃\\
+        \end{redblock}}
 \end{frame}
 
 
@@ -1388,22 +1388,118 @@ if(book == book2) {/*...*/}
         \begin{blueblock}
             {使用tie函数}
             \begin{lstlisting}[moreemph={T}]
-if(book < book2) {/*...*/}
-if(book == book2) {/*...*/}
+string title;
+double price;
+int year;
+list<string> author;
+auto book3 = tie(title, price, year, author); //创建一个tuple对象
 \end{lstlisting}
         \end{blueblock}
         \column{0.3\textwidth}
         \begin{yellowblock}
             {说明}
-            两个tuple可比较的条件：\\
-            $\bullet$ 成员数量相等\\
-            $\bullet$ 对应成员可以比较\\
-            比较的规则为按\alert{字典顺序}比较tuple中的值\\
+            标准库tie函数可以将多个对象的\alert{左值引用}组合为一个tuple对象
+        \end{yellowblock}
+    \end{columns}
+    \begin{columns}[T]
+        \column{0.65\textwidth}
+        \begin{blueblock}
+            {tuple对象的解包操作}
+            \begin{lstlisting}[moreemph={T}]
+tie(title, price, year, author) = book;
+cout << title << " " << price << " "<< year;
+\end{lstlisting}
+            输出：
+            \begin{lstlisting}[moreemph={T}]
+title1 48.99 2017
+    \end{lstlisting}
+        \end{blueblock}
+        \column{0.3\textwidth}
+        \begin{yellowblock}
+            {说明}
+            $\bullet$ 第一条语句将book中的成员依次赋值给tie函数创建的tuple对象\\
+            $\bullet$ 由于tie函数创建的tuple包含4个对象的引用，所以有最终的输出结果\\
+        \end{yellowblock}
+    \end{columns}
+\end{frame}
+
+
+
+\subsection{bitset类型}
+\begin{frame}[fragile]{12.7~标准库特殊工具\small{——bitset类型}}
+    \begin{block}
+        {bitset}
+        固定长度的二进制序列，可以方便地进行逻辑运算，及与字符串和整数相互转换。
+    \end{block}
+    \begin{columns}[T]
+        \column{0.65\textwidth}
+        \begin{blueblock}
+            {定义bitset}
+            \begin{lstlisting}[moreemph={T}]
+bitset<12> b(1002); //b的二进制序列[0011 1110 1010]
+bitset<12> b2("110010"); //二进制序列为[0000 0011 0010]
+\end{lstlisting}
+        \end{blueblock}
+        \column{0.3\textwidth}
+        \begin{yellowblock}
+            {说明}
+            $\bullet$ 模板参数为表示位长度的整型表达式\\
+            $\bullet$ bitset可以由整型值初始化，整形将转换为unsigned long long再转化为位模式存储\\
+            $\bullet$ bieset也可以由0和1组成的字符串常量初始化\\
+        \end{yellowblock}
+    \end{columns}
+    \begin{columns}[T]
+        \column{0.65\textwidth}
+        \begin{blueblock}
+            {高位舍弃}
+            \begin{lstlisting}[moreemph={T}]
+bitset<8> b1(1002); //舍弃高位，b1 的二进制序列[1110 1010]
+\end{lstlisting}
+        \end{blueblock}
+        \column{0.3\textwidth}
+        \begin{yellowblock}
+            {说明}
+            $\bullet$ unsigned long long位数如大于bitset长度，则高位会被舍弃\\
+            $\bullet$ 否则多余高位设为0\\
         \end{yellowblock}
     \end{columns}
 \end{frame}
 
 \subsection{bitset类型}
+\begin{frame}[fragile]{12.7~标准库特殊工具\small{——bitset类型}}
+    bitset的一些成员函数如下所示：
+    \begin{columns}[T]
+        \column{0.45\textwidth}
+        \begin{blueblock}
+            {bitset成员函数——统计}
+            \begin{lstlisting}[moreemph={T}]
+bitset<8> b3("01010101");
+b3.any(); //是否至少有一位为1
+b3.none(); //是否所有位全为0
+b3.all(); //是否所有位全为1
+b3.count(); //值为1的位的数量
+b3.size(); //位集合的长度
+ 
+ 
+\end{lstlisting}
+        \end{blueblock}
+        \column{0.45\textwidth}
+        \begin{blueblock}
+            {bitset成员函数——位操作}
+            \begin{lstlisting}[moreemph={T}]
+b3.flip(); //所有位取反（0变1，1变0）
+b3.reset(); //所有位设为0
+b3.set(); //所有位设为1
+b3.set(i); //第i位设为1
+b3.reset(i); //第i位设为0
+b3.flip(i); //第i位取反
+b3.test(i); //第i 位是否为1
+b3[i] = 0; //第i位设为0
+\end{lstlisting}
+        \end{blueblock}
+    \end{columns}
+\end{frame}
+
 \subsection{日期和时间}
 
 % \begin{frame}[c]{~}
