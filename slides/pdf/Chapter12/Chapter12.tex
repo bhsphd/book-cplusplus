@@ -1047,17 +1047,203 @@ double Calculator::doIt(const string & exp) {
 
 \section{运行时类型识别}
 \begin{frame}[fragile]{运行时类型识别}
-    \begin{block}
-        {运行时类型识别}
-        运行时类型识别（run-time type identification, RTTI）指的是通过\alert{基类的指针或引用}来检查其指向的\alert{派生类型}。
-    \end{block}
-	
+	\begin{block}
+		{运行时类型识别}
+		运行时类型识别（run-time type identification, RTTI）指的是通过\alert{基类的指针或引用}来检查其指向的\alert{派生类型}。
+	\end{block}
+	RTTI提供如下两个运算符：
+	\begin{itemize}
+		\item \texttt{typeid}
+		\item \texttt{dynamic\_cast}
+	\end{itemize}
+	\vspace{0.5cm}
+	这两个运算符作用于基类的指针或引用，如果该类型：
+	\begin{itemize}
+		\item 含有虚函数，则返回\alert{基类指针或引用的动态类型}
+		\item 不含有虚函数，则返回\alert{该类型的静态类型}
+	\end{itemize}
 \end{frame}
 
+
+
 \subsection{dynamic_cast运算符}
+\begin{frame}[fragile]{运行时类型识别\small{——dynamic\_cast运算符}}
+	dynamic\_cast运算符用于\alert{基类和派生类}之间的安全转换，其使用方式有：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{dynamic\_cast用法}
+			\begin{lstlisting}[moreemph={T}]
+dynamic_cast<type*>(expr)
+dynamic_cast<type&>(expr)
+dynamic_cast<type&&>(expr)
+\end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			三种使用方式中，expr依次必须为：\\
+			$\bullet$ 有效的指针\\
+			$\bullet$ 左值\\
+			$\bullet$ 右值\\
+		\end{yellowblock}
+		\begin{redblock}
+			{注意}
+			成功转换的前提：\\
+			expr的类型必须是type的基类、派生类或type本身\\
+			否则：\\
+			$\bullet$ 指针类型返回空指针\\
+			$\bullet$ 引用类型抛出std::bad\_cast异常\\
+		\end{redblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{运行时类型识别\small{——dynamic\_cast运算符}}
+	dynamic\_cast运算符用于\alert{基类和派生类}之间的安全转换，其使用方式有：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{定义基类及其派生类}
+			\begin{lstlisting}[moreemph={T}]
+struct Base{
+    virtual ~Base() {}
+};
+struct Derived:Base{
+    void name() {}
+};
+\end{lstlisting}
+		\end{blueblock}
+		\begin{blueblock}
+			{指针类型的dynamic\_cast}
+			\begin{lstlisting}[moreemph={T}]
+Base *b1 = new Base, *b2 = new Derived;
+if (Derived *d = dynamic_cast<Derived*>(b1))
+    d->name(); //转换失败，d为nullptr，不会执行此调用
+if (Derived *d = dynamic_cast<Derived*>(b2))
+    d->name(); //转换成功，执行此调用
+\end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			下方代码：\\
+			$\bullet$ 第一个转换中b1与基类对象绑定，转换失败\\
+			$\bullet$ 第二个转换中b2与派生类对象绑定，转换成功，执行name调用\\
+		\end{yellowblock}
+		\begin{redblock}
+			{建议}
+			把dynamic\_cast操作放到条件定义里，避免出现\alert{使用未绑定指针}的不安全操作
+		\end{redblock}
+	\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{运行时类型识别\small{——dynamic\_cast运算符}}
+	dynamic\_cast运算符用于\alert{基类和派生类}之间的安全转换，其使用方式有：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{引用类型的dynamic\_cast}
+			\begin{lstlisting}[moreemph={T}]
+try { //转换失败，抛出std::bad_cast异常
+    Derived &d = dynamic_cast<Derived&>(*b1);
+}catch(std::bad_cast){
+    cout << "downcast failed" << endl;
+}
+\end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{yellowblock}
+			{说明}
+			引用类型的dynamic\_cast转换失败时将抛出std::bad\_cast异常\\
+		\end{yellowblock}
+	\end{columns}
+\end{frame}
+
 \subsection{typeid运算符}
+\begin{frame}[fragile]{运行时类型识别\small{——typeid运算符}}
+    \textbf{关键字\texttt{typeid}}用来查询一个类型的信息
+		\begin{blueblock}
+			{typeid使用格式}
+			\begin{lstlisting}[moreemph={T}]
+typeid(type)
+typeid(expr)
+\end{lstlisting}
+        \end{blueblock}
+        \begin{yellowblock}
+            {说明}
+            \begin{itemize}
+                \item 如果表达式类型是\alert{类类型且包含虚成员函数}，那么需要在\alert{运行时}计算并返回表达式的\alert{动态类型}；
+                \item 否则，typeid运算将返回表达式的\alert{静态类型}，在\alert{编译时}获得。
+            \end{itemize}
+        \end{yellowblock}
+\end{frame}
+
+\subsection{typeid运算符}
+\begin{frame}[fragile]{运行时类型识别\small{——typeid运算符}}
+    typeid操作符的返回结果是名为type\_info 的标准库类型对象的引用。其支持的操作如下：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{typeid使用格式}
+			\begin{lstlisting}[moreemph={T}]
+t1 == t2 \\如果两个type_info对象t1和t2类型相同，则返回真；否则返回假
+t1 != t2 \\如果两个type_info对象t1和t2类型不同，则返回真；否则返回假
+t.name() \\返回类型的C风格字符串，类型名字用系统相关的方法产生
+t1.before(t2) \\返回一个bool值，表示t1类型是否出现在t2类型之前
+\end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{redblock}
+			{注意}
+			name成员返回的类型名与程序中使用的类型名并不一定一致，具体由编译器的实现决定\\
+		\end{redblock}
+	\end{columns}
+\end{frame}
+
+\subsection{typeid运算符}
+\begin{frame}[fragile]{运行时类型识别\small{——typeid运算符}}
+    typeid常用于比较两个表达式的类型是否相同，或一个表达式的类型是否与指定类型一致：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{typeid比较}
+			\begin{lstlisting}[moreemph={T}]
+Derived *d = new Derived;
+Base *b = d;
+if (typeid(*d) == typeid(*b)) { /*检查d和p是否指向同一类型对象*/}
+if (typeid(*b) == typeid(Derived)) {/*检查b是否指向Derived类型对象*/}
+\end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{redblock}
+			{注意}
+			此处typeid作用于*b而非b。\\
+		\end{redblock}
+	\end{columns}
+\end{frame}
 
 \section{union类型}
+\begin{frame}[fragile]{运行时类型识别\small{——typeid运算符}}
+    typeid常用于比较两个表达式的类型是否相同，或一个表达式的类型是否与指定类型一致：
+	\begin{columns}[T]
+		\column{0.65\textwidth}
+		\begin{blueblock}
+			{typeid比较}
+			\begin{lstlisting}[moreemph={T}]
+Derived *d = new Derived;
+Base *b = d;
+if (typeid(*d) == typeid(*b)) { /*检查d和p是否指向同一类型对象*/}
+if (typeid(*b) == typeid(Derived)) {/*检查b是否指向Derived类型对象*/}
+\end{lstlisting}
+		\end{blueblock}
+		\column{0.3\textwidth}
+		\begin{redblock}
+			{注意}
+			此处typeid作用于*b而非b。\\
+		\end{redblock}
+	\end{columns}
+\end{frame}
+
 \subsection{定义union类型}
 \subsection{使用union类型}
 
@@ -1065,5 +1251,11 @@ double Calculator::doIt(const string & exp) {
 \subsection{tuple类型}
 \subsection{bitset类型}
 \subsection{日期和时间}
+
+% \begin{frame}[c]{~}
+% 	\begin{center}
+% 		\huge{本章结束}
+% 	\end{center}
+% \end{frame}
 
 \end{document}
