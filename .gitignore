@@ -41,3 +41,10 @@ Debug/
 .vcxproj/
 *.opendb
 
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+*.vrb
+*.gz
