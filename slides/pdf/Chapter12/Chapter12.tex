@@ -1465,7 +1465,6 @@ bitset<8> b1(1002); //舍弃高位，b1 的二进制序列[1110 1010]
     \end{columns}
 \end{frame}
 
-\subsection{bitset类型}
 \begin{frame}[fragile]{12.7~标准库特殊工具\small{——bitset类型}}
     bitset的一些成员函数如下所示：
     \begin{columns}[T]
@@ -1479,8 +1478,6 @@ b3.none(); //是否所有位全为0
 b3.all(); //是否所有位全为1
 b3.count(); //值为1的位的数量
 b3.size(); //位集合的长度
- 
- 
 \end{lstlisting}
         \end{blueblock}
         \column{0.45\textwidth}
@@ -1500,12 +1497,97 @@ b3[i] = 0; //第i位设为0
     \end{columns}
 \end{frame}
 
-\subsection{日期和时间}
+\begin{frame}[fragile]{12.7~标准库特殊工具\small{——bitset类型}}
+    \begin{columns}[T]
+        \column{0.65\textwidth}
+        \begin{blueblock}
+            {bitset转化为整型值}
+            \begin{lstlisting}[moreemph={T}]
+cout << b.to_ullong() << endl; //输出1002
+\end{lstlisting}
+        \end{blueblock}
+        \column{0.3\textwidth}
+        \begin{yellowblock}
+            {说明}
+            bitset的成员函数to\_ulong和to\_ullong可将位集合的二进制序列转化成整型值
+        \end{yellowblock}
+        \begin{redblock}
+            {注意}
+            待转换的位集合的长度不能大于long或long long的位数
+        \end{redblock}
+    \end{columns}
+\end{frame}
 
-% \begin{frame}[c]{~}
-% 	\begin{center}
-% 		\huge{本章结束}
-% 	\end{center}
-% \end{frame}
+\subsection{日期和时间}
+\begin{frame}[fragile]{12.7~标准库特殊工具\small{——日期和时间}}
+    C++提供chrono库对时间和日期进行操作，其包含三种时钟类：
+    \begin{itemize}
+        \item \texttt{system\_clock}
+        \item \texttt{steady\_clock}
+        \item \texttt{high\_resolution\_clock}
+    \end{itemize}
+    其中system\_clock和high\_resolution\_clock是实时时钟（real time clock），会随如夏令时的时间调整而改变，而steady\_clock是单调时钟（monotonic clock），不随外界时间调整而改变。
+\end{frame}
+
+\begin{frame}[fragile]{12.7~标准库特殊工具\small{——日期和时间}}
+    \begin{columns}[T]
+        \column{0.65\textwidth}
+        \begin{blueblock}
+            {输出时间点}
+            \begin{lstlisting}[moreemph={T}]
+using namespace chrono;
+time_t tt = system_clock::to_time_t(system_clock::now());
+cout << put_time(gmtime(&tt), "%F %T" ) << endl;
+\end{lstlisting}
+在我们测试中，上述代码输出为：\\
+2017-12-09 20:15:08\\
+        \end{blueblock}
+        \column{0.3\textwidth}
+        \begin{yellowblock}
+            {说明~1}
+            $\bullet$ 成员函数now可获得数据成员的时间点time\_point\\
+            $\bullet$ high\_resolution\_clock相比system\_clock精度要高\\
+        \end{yellowblock}
+            \begin{yellowblock}
+                {说明~2}
+            获取标准日历形式输出：\\
+            $\bullet$ 通过to\_time\_t将time\_point转换为time\_t类型，然后通过gmtime转换为日历时间\\
+            $\bullet$ 再借助iomanip库中的put\_time函数将日历时间转换成各种时间书写形式
+        \end{yellowblock}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{12.7~标准库特殊工具\small{——日期和时间}}
+    \begin{columns}[T]
+        \column{0.65\textwidth}
+        \begin{blueblock}
+            {输出时间间隔}
+            \begin{lstlisting}[moreemph={T}]
+auto start = steady_clock::now();
+doSomething(); // 执行某种算法
+auto end = steady_clock::now();
+auto interval = duration_cast<milliseconds>(end - start);
+cout << interval.count() << endl;
+\end{lstlisting}
+        \end{blueblock}
+        \column{0.3\textwidth}
+        \begin{yellowblock}
+            {说明}
+            $\bullet$ 两个time\_point类型相减得到duration类型用于表示时间段\\
+            $\bullet$ 转换函数duration\_cast将时间段转换成特定的时间单位，如毫秒等\\
+            $\bullet$ 最后使用duration的成员函数count获取最终结果\\
+        \end{yellowblock}
+            \begin{redblock}
+                {注意}
+                考虑到测量时间间隔需要稳定不变的时钟，代码中使用的时钟是steady\_clock。
+        \end{redblock}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[c]{~}
+	\begin{center}
+		\huge{本章结束}
+	\end{center}
+\end{frame}
 
 \end{document}
