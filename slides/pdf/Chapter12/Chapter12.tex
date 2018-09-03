@@ -14,6 +14,7 @@
 \usepackage{graphicx}
 %设置图片存放路径
 \graphicspath{{figures/}}
+\usepackage{multicol} %多列布局
 
 %用户自定义区块环境
 \usepackage{setspace}
@@ -74,7 +75,9 @@ escapeinside={(*@}{@*)},
 
 \begin{frame}
     {目录}
-    \tableofcontents
+	\begin{multicols*}{2}
+        \tableofcontents
+    \end{multicols*}
 \end{frame}
 
 \begin{frame} {前言}
