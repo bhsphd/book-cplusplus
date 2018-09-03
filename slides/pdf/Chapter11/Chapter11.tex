@@ -173,12 +173,13 @@ if (auto p = Find(&vi[0], &vi[vi.size() - 1]+1, 4))
         \end{lstlisting}
     \end{block}
     \begin{block}{思考}
-        以上代码需要用户自行指定第一个和尾后元素的地址，非常麻烦。那么我们是否可以对这两个元素进行封装以方便使用？
+        以上代码需要用户自行指定第一个和尾后元素的地址，比较麻烦。\\
+        我们是否可以简化这个过程？
     \end{block}
 \end{frame}
 
 \begin{frame}[fragile]{11.1~迭代器\small{——实现Find函数模板}}
-    vector的第一个元素和尾后元素取地址的操作包装为如下的Begin和End函数模板：
+    vector的第一个元素和尾后元素取地址的操作包装为如下的\textbf{Begin和End函数模板}：
     \begin{block}{Begin和End函数模板（vector）}
         \begin{lstlisting}[basicstyle=\small\ttfamily]
 template<typename T>
@@ -218,6 +219,7 @@ Find(Begin(vi), End(vi), 4);
 Find(Begin(arr), End(arr), 4);
         \end{lstlisting}
     \end{block}
+    \pause
     和原始调用方式比较：
     \begin{block}{原始调用方式}
         \begin{lstlisting}[basicstyle=\small\ttfamily]
@@ -230,7 +232,7 @@ Find(arr, arr + sizeof(arr) / sizeof(int), 5) //处理数组
 
 \subsection{使用迭代器}
 \begin{frame}[fragile]{11.1~迭代器\small{——使用迭代器}}
-    每一种容器都有一个与之关联的迭代器。我们可以通过容器的成员函数 \alert{begin} 和 \alert{end} 获取第一个元素和尾后元素的迭代器，如:
+    每一种容器都有一个与之关联的迭代器。可以通过成员函数begin和end获取第一个元素和尾后元素的迭代器，如:
     \begin{block}{使用迭代器}
         \begin{lstlisting}[basicstyle=\small\ttfamily]
 vector<int> vi = {0,1,2,3};
@@ -238,11 +240,12 @@ vector<int>::iterator itb = vi.begin(); //itb指向vi 的首元素
 vector<int>::iterator ite = vi.end(); //ite指向vi的尾后元素
         \end{lstlisting}
     \end{block}
-    定义一个迭代器对象时，我们必须要指明与之关联的容器和元素类型。如上述代码中迭代器指向vector<int>中的元素。\\
+    定义一个迭代器对象时，我们必须要指明与之关联的容器和元素类型。如上述代码中迭代器指向\texttt{vector<int>}中的元素。\\
+    \pause
     通常我们会用auto来简化迭代器定义
     \begin{block}{利用auto简化迭代器定义}
         \begin{lstlisting}[basicstyle=\small\ttfamily]
-            auto itb = vi.begin(); //利用auto简化定义
+auto itb = vi.begin(); //利用auto简化定义
         \end{lstlisting}
     \end{block}
 \end{frame}
@@ -255,6 +258,8 @@ vector<int>::iterator ite = vi.end(); //ite指向vi的尾后元素
         \item \textbf{赋值运算符}：iter1 = iter2；
         \item \textbf{关系 == 和 != 运算}：iter1 == iter2, iter1 != iter2。\\
     \end{itemize}
+    \pause
+    \vspace{0.5cm}
     通常，我们使用迭代器来遍历容器中的元素
     \begin{block}
         {使用迭代器进行遍历}
@@ -284,12 +289,16 @@ for(auto it = vi.begin(); it != vi.end(); ++it){//遍历vector
 \section{容器}
 \subsection{容器概述}
 \begin{frame}{容器\small{——容器概述}}
+    \begin{block}
+        {容器}
+        容器是\alert{特定类型对象的集合}，集合中的元素通过某种数据结构组织在一起
+    \end{block}
     STL中的容器主要由两大类组成：
     \begin{itemize}
         \item 顺序容器
         \item 关联容器
     \end{itemize}
-    \vspace{1cm}
+    \vspace{0.5cm}
     \par
     大多数容器都支持以下操作：
     \begin{itemize}
@@ -318,8 +327,10 @@ vector<string> vs;
 \end{frame}
 
 \begin{frame}[fragile]{11.2~容器\small{——容器概述}}
-    C++11 还为每一种容器提供了cbegin和cend成员，分别返回第一个元素和尾后元素的
-    const迭代器，不允许对指向的元素执行写操作
+    C++11 还为每一种容器提供了\textbf{cbegin和cend成员}，分别返回第一个元素和尾后元素的
+    const迭代器，\alert{不允许对指向的元素执行写操作}
+    \begin{columns}[t]
+        \column{0.65\textwidth}
     \begin{block}{包含容器头文件}
         \begin{lstlisting}[basicstyle=\small\ttfamily]
 vector<int> vec = {0, 1, 2, 3, 4};
@@ -329,22 +340,12 @@ auto it2 = vec.cbegin(); //返回第一个元素的const迭代器
 *it2 = 5; //错误：it2为const 迭代器，不允许修改指向的对象
                 \end{lstlisting}
     \end{block}
-    对于begin成员，只有当容器是const类型，才返回const类型迭代器；否则返回非const。为了避免不必要的修改错误，C++增加了上述cbegin和cend成员，即无论容器是否为const，都返回const迭代器。
-\end{frame}
-
-\begin{frame}[fragile]{11.2~容器\small{——容器概述}}
-    C++11 还为每一种容器提供了cbegin和cend成员，分别返回第一个元素和尾后元素的
-    const迭代器，不允许对指向的元素执行写操作
-    \begin{block}{包含容器头文件}
-        \begin{lstlisting}[basicstyle=\small\ttfamily]
-vector<int> vec = {0, 1, 2, 3, 4};
-auto it1 = vec.begin(); //返回第一个元素的迭代器
-auto it2 = vec.cbegin(); //返回第一个元素的const迭代器
-*it1 = 4; //正确：修改第一个元素的值
-*it2 = 5; //错误：it2为const 迭代器，不允许修改指向的对象
-                \end{lstlisting}
-    \end{block}
-    对于begin成员，只有当容器是const类型，才返回const类型迭代器；否则返回非const。为了避免不必要的修改错误，C++增加了上述cbegin和cend成员，即无论容器是否为const，都返回const迭代器。
+    \column{0.3\textwidth}
+    \begin{yellowblock}
+        {说明}
+        对于begin成员，只有当容器是const类型，才返回const类型迭代器；否则返回非const。为了避免不必要的修改错误，C++增加了上述cbegin和cend成员。
+    \end{yellowblock}
+\end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{11.2~容器\small{——容器概述}}
@@ -354,19 +355,20 @@ auto it2 = vec.cbegin(); //返回第一个元素的const迭代器
         \begin{blueblock}{vector的插入和删除数据操作}
             \begin{lstlisting}[basicstyle=\small\ttfamily]
 vector<int> vec = {0, 1, 2, 3, 4};
-vec.insert(vec.begin(), 10);
-vec.erase(vec.begin()+1);
+vec.insert(vec.begin(), 10); //在第一个位置插入整数10
+vec.erase(vec.begin()+1); //删除vec中第二个元素
                     \end{lstlisting}
         \end{blueblock}
         \column{0.3\textwidth}
-        \begin{yellowblock}{说明}
-            $\bullet$除C++11新增的array 容器以外，其它容器都是可变长的
-        \end{yellowblock}
+        \begin{redblock}{注意}
+            除C++11新增的array 容器以外，其它容器都是可变长的
+        \end{redblock}
     \end{columns}
 \end{frame}
 
+%!这里有问题！
 \begin{frame}[fragile]{11.2~容器\small{——容器概述}}
-    C++11为可变长容器新增的emplace成员，示例如下：
+    C++11为可变长容器新增的\textbf{emplace成员}，示例如下：
     \begin{columns}
         \column{0.65\textwidth}
         \begin{blueblock}{定义一个foo类}
@@ -390,15 +392,15 @@ vf.emplace(vf.begin(),"Rosieta", 10);
         \column{0.3\textwidth}
         \begin{yellowblock}{说明}
             $\bullet$ emplace成员通过一个参数包接受的参数来构造一个元素并将之插入容器中。\\
-            $\bullet$ emplace\_back函数调用把两个实参传递给Foo类的构造函数，并在vf的末尾利用这两个参数值构造一个新元素。\\
-            $\bullet$ 与emplace\_back成员相比，push\_back和insert成员只能将已构造的元素移动或复制到容器中相应的位置，不能在指定位置直接构造一个元素。\\
+            $\bullet$ emplace\_back函数调用把两个实参传递给Foo类的构造函数，并\alert{在vf的末尾利用这两个参数值构造一个新元素}\\
+            $\bullet$ 与emplace\_back成员相比，push\_back和insert成员只能移动或复制\alert{已构造元素}\\
         \end{yellowblock}
     \end{columns}
 
 \end{frame}
 
 \begin{frame}[fragile]{11.2~容器\small{——容器概述}}
-    swap操作交换两个相同类型容器的数据：
+    \textbf{swap操作}交换两个相同类型容器的数据：
     \begin{columns}
         \column{0.65\textwidth}
         \begin{blueblock}{swap操作}
@@ -1504,14 +1506,14 @@ bind(Less, std::placeholders::_2, std::placeholders::_1);
     \begin{columns}[T]
         \column{0.65\textwidth}
                 \begin{blueblock}{使用function对象}
-        			\begin{lstlisting}[moreemph={T}]
+                    \begin{lstlisting}[moreemph={T}]
 LargeData a(0), b(1);
 if (f1(&a, &b)) {/*...*/}
 if (f2(&a, &b)) {/*...*/}
 if (f3(&a, &b)) {/*...*/}
 if (f4(&a, &b)) {/*...*/}
                     \end{lstlisting}
-        		\end{blueblock}
+                \end{blueblock}
         \column{0.3\textwidth}
         \begin{yellowblock}
             {说明}
