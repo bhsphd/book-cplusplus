@@ -99,11 +99,14 @@
 
 \section{迭代器}
 \begin{frame}{11.1~迭代器}
-    我们已经在4.6.3节介绍了迭代器（iterator），并使用它访问vector 类型中的元素。本节我们考虑以下问题：
+    我们已经在4.6.3节介绍了\textbf{迭代器（iterator）}，并使用它访问vector类型中的元素。本节我们考虑以下问题：
     \begin{block}{问题引入}
-        给定一个vector 或者数组以及一个数据值，要求查找给定的数据值是否在vector 或者数组中，如果找到的话，返回该元素的地址；否则返回一个空指针。
+        给定一个vector或者数组以及一个数据值，要求\alert{查找给定的数据值是否在vector或者数组中}：
+        \begin{itemize}
+            \item 找到的话，返回该元素的地址
+            \item 没有找到，返回一个空指针
+        \end{itemize}
     \end{block}
-
 \end{frame}
 
 \subsection{实现Find函数模板}
