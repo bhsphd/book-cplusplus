@@ -146,7 +146,7 @@ class X{ /*...*/ };
         \column{0.3\textwidth}
         \begin{yellowblock}
             {说明}
-            $\bullet$ 定义一个命名空间以关键字namespace开始，后面跟命名空间的名字\\
+            $\bullet$ 定义以关键字namespace开始，后面跟命名空间的名字\\
             $\bullet$ 主体由一对花括号括起来的声明和定义组成\\
             $\bullet$ 左侧代码定义了一个名为Foo的命名空间，该命名空间包括两个成员：一
             个函数和一个类\\
@@ -262,8 +262,8 @@ fun(1.0); //调用当前版本中新增的fun 函数
         \column{0.3\textwidth}
         \begin{yellowblock}
             {说明}
-            $\bullet$ 关键字inline 必须出现在一个命名空间第一次定义的地方\\
-            $\bullet$ 命名空间SecondVersion是内联的，因此它的成员可以在外层作用域（全局作用域）直接访问\\
+            $\bullet$ inline必须出现在一个命名空间首次定义的地方\\
+            $\bullet$ SecondVersion是内联的，因此它的成员可以在外层作用域直接访问\\
             $\bullet$ 如果要访问早期版本（非内联）的成员，则必须要指明所属的版本名字\\
         \end{yellowblock}
     \end{columns}
@@ -281,7 +281,7 @@ fun(1.0); //调用当前版本中新增的fun 函数
         \column{0.3\textwidth}
         \begin{yellowblock}
             {说明}
-            $\bullet$ 全局命名空间是隐式声明的，每个文件将全局作用域内定义的名字添加到全局命名空间中。\\
+            全局命名空间是隐式声明的，每个文件将全局作用域内定义的名字添加到全局命名空间中。\\
         \end{yellowblock}
     \end{columns}
 \end{frame}
@@ -511,7 +511,7 @@ struct MyException :public exception {
                 noexcept应置于：\\
                 $\bullet$ 形参列表后面\\
                 $\bullet$ 如修饰成员函数，在const限定符之后，final、override或纯虚函数=0之前\\
-                $\bullet$ 函数的声明和定义处必须都要出现\\
+                $\bullet$ 声明和定义处都要有\\
             \end{yellowblock}}
         \only<2->{
             \begin{redblock}
