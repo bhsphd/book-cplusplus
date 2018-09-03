@@ -25,7 +25,7 @@
 \definecolor{babypink}{rgb}{0.96, 0.76, 0.76}
 \definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
 \setbeamerfont{block title}{size=\small}
-\setbeamerfont{block body}{size=\footnotesize}
+\setbeamerfont{block body}{size=\small}
 \newenvironment<>{blueblock}[1]{
     \setbeamercolor{block title}{fg=white,bg=hanblue}
     \begin{block}#2{#1}}{\end{block}}
@@ -125,7 +125,7 @@ int main() {
 \end{frame}
 
 \subsection{定义命名空间}
-\begin{frame}[fragile]{12.1~命名空间}{定义命名空间}
+\begin{frame}[fragile]{12.1~命名空间\small{——定义命名空间}}
     \begin{block}
         {命名空间}
         命名空间可以将全局作用域内有效的类名、函数名或对象名组织到一个名字下面。即将全局作用域分割为子作用域，每个子域称为一个命名空间。
@@ -152,7 +152,7 @@ class X{ /*...*/ };
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{12.1~命名空间}{定义命名空间}
+\begin{frame}[fragile]{12.1~命名空间\small{——定义命名空间}}
     一个命名空间是可以不连续的。通常情况下，我们将命名空间成员声明放到头文件中，实现放在源文件，从而达到接口和实现分离的目的。例如：
 
     \begin{columns}[T]
@@ -186,7 +186,7 @@ int x = Foo::doSomething(2, 1);
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{12.1~命名空间}{定义命名空间}
+\begin{frame}[fragile]{12.1~命名空间\small{——定义命名空间}}
     在命名空间外部访问它内部的成员时，必须要明确指出成员所属的命名空间：
     \begin{columns}[T]
         \column{0.65\textwidth}
@@ -210,7 +210,7 @@ int x = Foo::doSomething(2, 1);
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{12.1~命名空间}{定义命名空间}
+\begin{frame}[fragile]{12.1~命名空间\small{——定义命名空间}}
     \begin{block}
         {命名空间的嵌套}
         在一个命名空间内部定义另外一个命名空间
@@ -243,7 +243,7 @@ int x = Wang::Goo::doSomething(2, 1);
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{12.1~命名空间}{定义命名空间}
+\begin{frame}[fragile]{12.1~命名空间\small{——定义命名空间}}
     C++11 标准新增\textbf{内联命名空间（inline namespace）}，用来指示命名空间中的名称可以\alert{在外层命名空间中直接使用}。当一个程序的新版本发布时，我们使用内联命名空间，例如：
     \begin{columns}[T]
         \column{0.65\textwidth}
@@ -272,7 +272,7 @@ fun(1.0); //调用当前版本中新增的fun 函数
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{12.1~命名空间}{定义命名空间}
+\begin{frame}[fragile]{12.1~命名空间\small{——定义命名空间}}
     定义在全局作用域中的名字也是定义在\textbf{全局命名空间}中的。我们可以直接使用\alert{作用域操作符}访问全局命名空间的成员：
     \begin{columns}[T]
         \column{0.65\textwidth}
