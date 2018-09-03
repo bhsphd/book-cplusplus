@@ -380,6 +380,14 @@ struct Foo{
 };
                     \end{lstlisting}
         \end{blueblock}
+        \column{0.3\textwidth}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{11.2~容器\small{——容器概述}}
+    C++11为可变长容器新增的\textbf{emplace成员}，示例如下：
+    \begin{columns}
+        \column{0.65\textwidth}
         \begin{blueblock}{emplace与insert成员用法区别}
             \begin{lstlisting}[moreemph={T}]
 vector<Foo> vf;
@@ -396,7 +404,6 @@ vf.emplace(vf.begin(),"Rosieta", 10);
             $\bullet$ 与emplace\_back成员相比，push\_back和insert成员只能移动或复制\alert{已构造元素}\\
         \end{yellowblock}
     \end{columns}
-
 \end{frame}
 
 \begin{frame}[fragile]{11.2~容器\small{——容器概述}}
