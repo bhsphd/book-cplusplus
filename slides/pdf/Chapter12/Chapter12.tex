@@ -24,8 +24,10 @@
 \definecolor{indianyellow}{rgb}{0.89, 0.66, 0.34}
 \definecolor{babypink}{rgb}{0.96, 0.76, 0.76}
 \definecolor{ao(english)}{rgb}{0.0, 0.5, 0.0}
-\setbeamerfont{block title}{size=\small}
-\setbeamerfont{block body}{size=\small}
+% \setbeamerfont{block title}{size=\small}
+% \setbeamerfont{block body}{size=\small}
+\setbeamerfont{block title}{}
+\setbeamerfont{block body}{}
 \newenvironment<>{blueblock}[1]{
     \setbeamercolor{block title}{fg=white,bg=hanblue}
     \begin{block}#2{#1}}{\end{block}}
@@ -75,7 +77,7 @@ escapeinside={(*@}{@*)},
 
 \begin{frame}
     {目录}
-	\begin{multicols*}{2}
+    \begin{multicols*}{2}
         \tableofcontents
     \end{multicols*}
 \end{frame}
@@ -170,11 +172,6 @@ namespace Foo {
 X g_x;
 int doSomething(int x, int y) { /*...*/ }
 }
-            \end{lstlisting}
-        \end{blueblock}
-        \begin{blueblock}{外部访问命名空间}
-            \begin{lstlisting}[moreemph={T}]
-int x = Foo::doSomething(2, 1);
             \end{lstlisting}
         \end{blueblock}
         \column{0.3\textwidth}
@@ -290,7 +287,7 @@ fun(1.0); //调用当前版本中新增的fun 函数
 \end{frame}
 
 \subsection{使用命名空间}
-\begin{frame}[fragile]{12.1~命名空间}{使用命名空间}
+\begin{frame}[fragile]{12.1~命名空间\small{——使用命名空间}}
     为了简化如下的繁琐的命名空间成员的访问方式，我们可以使用\textbf{using声明（using declaration）}或\textbf{using指示（using directive）}
     \begin{blueblock}
         {繁琐的命名空间成员访问形式}
@@ -300,7 +297,7 @@ Wang::Goo::doSomething
     \end{blueblock}
 \end{frame}
 
-\begin{frame}[fragile]{12.1~命名空间}{使用命名空间}
+\begin{frame}[fragile]{12.1~命名空间\small{——使用命名空间}}
     一条\textbf{using声明}语句用来引用命名空间中的\alert{一个成员}。例如，我们使用using 声明引入标准库命名空间std中成员cout：
     \begin{columns}[T]
         \column{0.65\textwidth}
@@ -320,7 +317,7 @@ cout << "Hello world"; //cout等价于std::cout
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{12.1~命名空间}{使用命名空间}
+\begin{frame}[fragile]{12.1~命名空间\small{——使用命名空间}}
     using 声明一次只能引入命名空间的一个成员，如果要引入一个命名空间内\alert{所有的成员}，我们可以使用\textbf{using指示}:
     \begin{columns}[T]
         \column{0.65\textwidth}
@@ -334,14 +331,13 @@ using namespace std;
         \begin{yellowblock}
             {说明}
             $\bullet$ using指示意味着std中所有成员在此处都可见\\
-
         \end{yellowblock}
-        \only<1>{\begin{redblock}
-                {注意}
-                $\bullet$ 指示可以出现在全局作用域、局部作用域和命名空间作用域中，但是不能出现在类的作用域中\\
-                $\bullet$ using指示的作用域也是从声明的地方开始，直到using语句所在的作用域结束处为止\\
-            \end{redblock}}
     \end{columns}
+    \only<1>{\begin{redblock}
+            {注意}
+            $\bullet$ 指示可以出现在全局作用域、局部作用域和命名空间作用域中，但是不能出现在类的作用域中\\
+            $\bullet$ using指示的作用域也是从声明的地方开始，直到using语句所在的作用域结束处为止\\
+        \end{redblock}}
     \only<2>{\begin{redblock}
             {提示}
             虽然using 声明只能引入命名空间中的一个成员，但与using指示相比，它\alert{不易引起命名冲突}，是一种更安全的方式。
@@ -387,7 +383,7 @@ throw MyException("Fatal Error"); //MyException为一个类类型
             {说明}
             $\bullet$ throw可以抛出\alert{任何类型对象}\\
             $\bullet$ 通常情况下，抛出的异常为错误的编号、错误描述或用户自定义的异常类对象。\\
-            $\bullet$ 当执行throw语句时，其\alert{后面的语句不会被执行}。程序的控制权将转移到\alert{与之匹配的catch模块}\\
+            $\bullet$ 执行throw语句时，其\alert{后面的语句不会被执行}。程序控制权将转移到\alert{与之匹配的catch模块}\\
         \end{yellowblock}
     \end{columns}
 \end{frame}
@@ -431,7 +427,7 @@ catch (const char *str) {//捕获一个C风格字符串常量对象
             {说明}
             $\bullet$ cerr为标准错误ostream对象用于输出程序错误信息。\\
             $\bullet$ catch语句中的异常声明类似于只包含一个形参的函数形参列表。\\
-            $\bullet$ 异常声明包括类型和名字，其中类型决定了该catch子句能够捕获的异常的类型\\
+            $\bullet$ 异常声明中的类型决定了该catch子句能够捕获的异常的类型\\
             $\bullet$ 能够捕获的错误类型可以为左值引用，但不能为右值引用。\\
         \end{yellowblock}
     \end{columns}
@@ -494,7 +490,7 @@ catch (const char *str) {
 \end{frame}
 
 \begin{frame}[fragile]{12.2~异常处理\small{——标准库异常类}}
-    \textbf{what函数}返回一个const char*，指向一个以null结尾的字符数组，用于提示异常类型。我们可以继承exception类并重载what：\\
+    \textbf{what函数}返回一个const char*，指向一个以null结尾的字符数组，用于提示异常类型。我们可以继承exception类并重写what：\\
     \begin{columns}[T]
         \column{0.65\textwidth}
         \begin{blueblock}
@@ -549,13 +545,13 @@ catch (exception &ex) {
 \subsection{多重继承}
 \begin{frame}[fragile]{12.3~多重继承与虚继承\small{——多重继承}}
     \begin{block}
-        {多重继承}
-        为一个派生类指定多个基类的继承结构称为多重继承
+        {{12.1~命名空间\small{——使用命名空间}}}
+        为一个派生类指定多个基类的继承结构称为{12.1~命名空间\small{——使用命名空间}}
     \end{block}
     \begin{columns}[T]
         \column{0.65\textwidth}
         \begin{blueblock}
-            {多重继承}
+            {{12.1~命名空间\small{——使用命名空间}}}
             \begin{lstlisting}[moreemph={T}]
 class Mammal {
 public:
@@ -568,6 +564,22 @@ public:
 class Bat: public Mammal, public WingedAnimal { };
         \end{lstlisting}
         \end{blueblock}
+        \column{0.3\textwidth}
+        \begin{yellowblock}
+            {说明}
+            $\bullet$ Bat类的派生列表中有两个以逗号分隔的基类\\
+            $\bullet$ Bat类对象将具有Mammal和WingedAnimal两种动物的行为\\
+        \end{yellowblock}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{12.3~多重继承与虚继承\small{——多重继承}}
+    \begin{block}
+        {多重继承}
+        为一个派生类指定多个基类的继承结构称为多重继承
+    \end{block}
+    \begin{columns}[T]
+        \column{0.65\textwidth}
         \begin{blueblock}
             {多重继承}
             \begin{lstlisting}[moreemph={T}]
@@ -597,8 +609,10 @@ class Bat: public Mammal, public WingedAnimal { };
         \begin{blueblock}
             {调用基类构造函数}
             \begin{lstlisting}[moreemph={T}]
-Bat::Bat() {} //隐式调用Mammal和WingedAnimal的默认构造函数
-Bat::Bat() :Mammal(), WingedAnimal() {} //显式调用基类的默认构造函数
+//隐式调用Mammal和WingedAnimal的默认构造函数
+Bat::Bat() {}
+//显式调用基类的默认构造函数
+Bat::Bat() :Mammal(), WingedAnimal() {}
         \end{lstlisting}
         \end{blueblock}
         \column{0.3\textwidth}
@@ -606,14 +620,14 @@ Bat::Bat() :Mammal(), WingedAnimal() {} //显式调用基类的默认构造函�
             {说明}
             $\bullet$ 多重继承的派生类对象的构造函数只能初始化其\alert{直接基类}成员\\
             $\bullet$ 构造的顺序与\alert{派生列表}中基类出现的先后顺序一致\\
-            $\bullet$ 调用基类的构造函数有\alert{隐式和显式}两种方式\\
             $\bullet$ 成员析构的顺序与构造的顺序相反\\
+            $\bullet$ 调用基类的构造函数有\alert{隐式和显式}两种方式\\
         \end{yellowblock}
     \end{columns}
 \end{frame}
 
 \subsection{虚继承}
-\begin{frame}[fragile]{12.3~多重继承与虚继承\small{——虚继承}}
+\begin{frame}[fragile]{12.3~多重继承与虚继承\small{——多重继承}}
     我们将Mammal和WingedAnimal进一步抽象，设计一个公共基类Animal：
     \begin{columns}[T]
         \column{0.65\textwidth}
@@ -649,7 +663,7 @@ class Bat: public Mammal, public WingedAnimal { };
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{12.3~多重继承与虚继承\small{——虚继承}}
+\begin{frame}[fragile]{12.3~多重继承与虚继承\small{——多重继承}}
     当存在如下调用的时候，会产生二义性问题：
     \begin{columns}[T]
         \column{0.65\textwidth}
@@ -665,7 +679,7 @@ Animal a = b; //错误：类型无法转换
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{12.3~多重继承与虚继承\small{——虚继承}}
+\begin{frame}[fragile]{12.3~多重继承与虚继承\small{——多重继承}}
     C++通过\textbf{虚继承（virtual inheritance）}的机制来解决上述问题：
     \begin{columns}[T]
         \column{0.65\textwidth}
@@ -685,7 +699,7 @@ class Mammal : virtual public Animal {/*...*/};
     \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{12.3~多重继承与虚继承\small{——虚继承}}
+\begin{frame}[fragile]{12.3~多重继承与虚继承\small{——多重继承}}
     虚继承的基类由\alert{最底层的派生类进行初始化}：
     \begin{columns}[T]
         \column{0.65\textwidth}
@@ -853,12 +867,12 @@ map<char, function<unique_ptr<Operator>()>> ms_operator;
             {类注册机制}
             保存\alert{类名（字符串）}和\alert{类实例}获取方法的映射关系，使程序能够根据名称得到类的实例。
         \end{block}
-        \begin{yellowblock}
-            {说明}
-            $\bullet$ map对象的关键字为char类型，用于根据字符调用对应的function对象
-            $\bullet$ function对象将返回一个指向Operator对象的unique\_ptr，用于生成对应运算符对象
-        \end{yellowblock}
     \end{columns}
+    \begin{yellowblock}
+        {说明}
+        $\bullet$ map对象的关键字为char类型，用于根据字符调用对应的function对象\\
+        $\bullet$ function对象将返回一个指向Operator对象的unique\_ptr，用于生成对应运算符对象\\
+    \end{yellowblock}
 \end{frame}
 
 \begin{frame}[fragile]{12.4~嵌套类\small{——二维数组类}}
@@ -882,38 +896,29 @@ ms_operator.emplace(’+’,[]() { return make_unique<Plus>(); });
 \end{frame}
 
 \begin{frame}[fragile]{12.4~嵌套类\small{——二维数组类}}
-    之后即可根据用算符名字自动创建该运算符类对象：
-    \begin{columns}[T]
-        \column{0.65\textwidth}
-        \begin{blueblock}
-            {类注册机制核心数据结构}
-            \begin{lstlisting}[moreemph={T}]
+之后即可根据用算符名字自动创建该运算符类对象：
+\begin{blueblock}
+    {类注册机制核心数据结构}
+    \begin{lstlisting}[moreemph={T}]
 ms_operator.emplace(’+’,[]() { return make_unique<Plus>(); });
 \end{lstlisting}
-        \end{blueblock}
-        \column{0.3\textwidth}
-    \end{columns}
-    \begin{columns}[T]
-        \column{0.65\textwidth}
-
-        \begin{blueblock}
-            {根据名字自动创建运算符}
-            \begin{lstlisting}[moreemph={T}]
+\end{blueblock}
+\begin{blueblock}
+    {根据名字自动创建运算符}
+    \begin{lstlisting}[moreemph={T}]
 unique_ptr<Operator> oo = ms_operator[’+’]();
 \end{lstlisting}
-        \end{blueblock}
-        \column{0.3\textwidth}
-        \begin{yellowblock}
-            {说明}
-            $\bullet$ 下标运算符调用function对象\\
-            $\bullet$ function对象通过lambda表达式调用make\_unique\\
-            $\bullet$ make\_unique将返回对应下标运算符接收的字符所对应的Operator的unique\_ptr\\
-        \end{yellowblock}
-    \end{columns}
+\end{blueblock}
+\begin{yellowblock}
+    {说明}
+    $\bullet$ 下标运算符调用function对象\\
+    $\bullet$ function对象通过lambda表达式调用make\_unique\\
+    $\bullet$ make\_unique将返回对应下标运算符接收的字符所对应的Operator的unique\_ptr\\
+\end{yellowblock}
 \end{frame}
 
 \begin{frame}[fragile]{12.4~嵌套类\small{——二维数组类}}
-    为了方便用户注册，我们实现一个对象工厂（object factory）：
+    为了方便用户注册，我们实现一个\textbf{对象工厂（object factory）}：
     \begin{columns}[T]
         \column{0.65\textwidth}
         \begin{blueblock}
@@ -923,17 +928,19 @@ class Factory{
 public:
 template<typename T>
 struct RegisterClass {
-RegisterClass(char opr) {
-Factory::ms_operator.emplace(opr,[]{return make_unique<T>();});
-}//在Factory静态成员ms_operator作用域范围内，可以直接访问
+    RegisterClass(char opr) {
+        Factory::ms_operator.emplace(opr,
+          []{return make_unique<T>();});
+    } //在ms_operator作用域范围内，可以直接访问
 };
 static unique_ptr<Operator> create(char opr) {
     auto it = ms_operator.find(opr);
     if (it != ms_operator.end())
-        return it->second(); //调用与opr相关联的lambda表达式
+        return it->second(); //调用关联的lambda表达式
 }
 private://静态成员
-static map<char, function<unique_ptr<Operator>()>> ms_operator;
+    static map<char, 
+      function<unique_ptr<Operator>()>> ms_operator;
 };
 \end{lstlisting}
         \end{blueblock}
@@ -1013,7 +1020,7 @@ double Calculator::doIt(const string & exp) {
         if (isNum(it))
             m_num.push(readNum(it));
         else {
-            auto oo=Factory::create(*it++); //产生一个当前运算符类对象
+            auto oo=Factory::create(*it++);
             while (oo->precedence() <= m_opr.top()->precedence()) {
                 if (m_opr.top()->symbol() == ’#’)
                     break;
@@ -1087,15 +1094,15 @@ dynamic_cast<type&&>(expr)
             $\bullet$ 左值\\
             $\bullet$ 右值\\
         \end{yellowblock}
-        \begin{redblock}
-            {注意}
-            成功转换的前提：\\
-            expr的类型必须是type的基类、派生类或type本身\\
-            否则：\\
-            $\bullet$ 指针类型返回空指针\\
-            $\bullet$ 引用类型抛出std::bad\_cast异常\\
-        \end{redblock}
     \end{columns}
+    \begin{redblock}
+        {注意}
+        成功转换的前提：\\
+        expr的类型必须是type的基类、派生类或type本身\\
+        否则：\\
+        $\bullet$ 指针类型返回空指针\\
+        $\bullet$ 引用类型抛出std::bad\_cast异常\\
+    \end{redblock}
 \end{frame}
 
 \begin{frame}[fragile]{12.5~运行时类型识别\small{——dynamic\_cast运算符}}
@@ -1127,8 +1134,8 @@ if (Derived *d = dynamic_cast<Derived*>(b2))
         \begin{yellowblock}
             {说明}
             下方代码：\\
-            $\bullet$ 第一个转换中b1与基类对象绑定，转换失败\\
-            $\bullet$ 第二个转换中b2与派生类对象绑定，转换成功，执行name调用\\
+            $\bullet$ 第一个转换b1与基类对象绑定，转换失败\\
+            $\bullet$ 第二个转换b2与派生类对象绑定，转换成功，执行name调用\\
         \end{yellowblock}
         \begin{redblock}
             {建议}
@@ -1180,29 +1187,23 @@ typeid(expr)
 
 \begin{frame}[fragile]{12.5~运行时类型识别\small{——typeid运算符}}
     typeid操作符的返回结果是名为type\_info 的标准库类型对象的引用。其支持的操作如下：
-    \begin{columns}[T]
-        \column{0.65\textwidth}
         \begin{blueblock}
             {typeid使用格式}
             \begin{lstlisting}[moreemph={T}]
-t1 == t2 \\如果两个type_info对象t1和t2类型相同，则返回真；否则返回假
-t1 != t2 \\如果两个type_info对象t1和t2类型不同，则返回真；否则返回假
-t.name() \\返回类型的C风格字符串，类型名字用系统相关的方法产生
-t1.before(t2) \\返回一个bool值，表示t1类型是否出现在t2类型之前
+t1 == t2      如果两个type_info对象t1和t2类型相同，则返回真；否则返回假
+t1 != t2      如果两个type_info对象t1和t2类型不同，则返回真；否则返回假
+t.name()      返回类型的C风格字符串，类型名字用系统相关的方法产生
+t1.before(t2) 返回一个bool值，表示t1类型是否出现在t2类型之前
 \end{lstlisting}
         \end{blueblock}
-        \column{0.3\textwidth}
         \begin{redblock}
             {注意}
             name成员返回的类型名与程序中使用的类型名并不一定一致，具体由编译器的实现决定\\
         \end{redblock}
-    \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{12.5~运行时类型识别\small{——typeid运算符}}
     typeid常用于比较两个表达式的类型是否相同，或一个表达式的类型是否与指定类型一致：
-    \begin{columns}[T]
-        \column{0.65\textwidth}
         \begin{blueblock}
             {typeid比较}
             \begin{lstlisting}[moreemph={T}]
@@ -1212,12 +1213,10 @@ if (typeid(*d) == typeid(*b)) { /*检查d和p是否指向同一类型对象*/}
 if (typeid(*b) == typeid(Derived)) {/*检查b是否指向Derived类型对象*/}
 \end{lstlisting}
         \end{blueblock}
-        \column{0.3\textwidth}
         \begin{redblock}
             {注意}
             此处typeid作用于*b而非b。\\
         \end{redblock}
-    \end{columns}
 \end{frame}
 
 \section{union类型}
@@ -1267,11 +1266,11 @@ union ID {
         \begin{blueblock}
             {union类型定义}
             \begin{lstlisting}[moreemph={T}]
-ID wang = {’a’}; // 构造了一个ID类对象，为其第一个成员赋值
+ID wang = {’a’}; //构造一个ID类对象并为第一个成员赋值
 cout << wang.char_type << endl; //输出a
-wang.int_type = 1001; // 激活使用第二个成员
+wang.int_type = 1001; //激活使用第二个成员
 cout << wang.int_type << endl; //输出1001
-wang.llong_type = 20171001001; // 激活使用第三个成员
+wang.llong_type = 20171001001; //激活使用第三个成员
 cout << wang.llong_type << endl; //输出20171001001
 \end{lstlisting}
         \end{blueblock}
@@ -1279,11 +1278,14 @@ cout << wang.llong_type << endl; //输出20171001001
         \begin{yellowblock}
             {说明}
             $\bullet$ 使用花括号可对其\alert{第一个}数据成员赋值\\
-            $\bullet$ 赋值后其他成员将处于未定义状态\\
+            $\bullet$ 赋值后其他成员将处于\alert{未定义}状态\\
             $\bullet$ ID类型对象占用内存长度和long类型长度相同\\
         \end{yellowblock}
     \end{columns}
-    \only<1>{\begin{redblock}
+\end{frame}
+
+\begin{frame}[fragile]{12.6~union类型\small{——使用union类型}}
+    \begin{redblock}
             {注意}
             class的大多特征适用于union：\\
             $\bullet$ 其数据成员可用private、public和protected修饰，默认为public\\
@@ -1291,15 +1293,14 @@ cout << wang.llong_type << endl; //输出20171001001
             但另一些特征union不具备：\\
             $\bullet$ 不能包含引用类型的数据成员\\
             $\bullet$ union类不具备继承特性\\
-        \end{redblock}}
-    \only<2->{\begin{redblock}
+        \end{redblock}
+    \begin{redblock}
             {注意}
             另外：\\
             $\bullet$ 如成员为类类型，状态变化时将调用其构造/析构函数\\
             $\bullet$ 使用时必须清楚使用的是哪一个成员，错误使用会导致崩溃\\
-        \end{redblock}}
+        \end{redblock}
 \end{frame}
-
 
 \section{标准库特殊工具}
 \subsection{tuple类型}
@@ -1313,7 +1314,8 @@ cout << wang.llong_type << endl; //输出20171001001
         \begin{blueblock}
             {定义tuple对象}
             \begin{lstlisting}[moreemph={T}]
-tuple<string, double, int,list<string>> book("title1",58.99,2017,{"Mandy","Lisha","Rosieta"});
+tuple<string, double, int,list<string>> book(
+  "title1",58.99,2017,{"Mandy","Lisha","Rosieta"});
 \end{lstlisting}
         \end{blueblock}
         \column{0.3\textwidth}
@@ -1339,8 +1341,6 @@ auto book2 = make_tuple(string("title2"), 68.99, 2017, list<string>{"Mandy","Lis
 \end{frame}
 
 \begin{frame}[fragile]{12.7~标准库特殊工具\small{——tuple类型}}
-    \begin{columns}[T]
-        \column{0.65\textwidth}
         \begin{blueblock}
             {访问tuple成员}
             \begin{lstlisting}[moreemph={T}]
@@ -1350,13 +1350,11 @@ for (auto &i : get<3>(book)) //使用范围for访问第四个成员的所有元�
     cout << i << " ";
 \end{lstlisting}
         \end{blueblock}
-        \column{0.3\textwidth}
         \begin{yellowblock}
             {说明}
             $\bullet$ 使用标准库函数模板get来获取tuple的成员\\
             $\bullet$ 使用get时需提供一个整型常量表达式实参，如\texttt{get<0>}表示第一个成员\\
         \end{yellowblock}
-    \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]{12.7~标准库特殊工具\small{——tuple类型}}
@@ -1416,7 +1414,7 @@ title1 48.99 2017
         \begin{yellowblock}
             {说明}
             $\bullet$ 第一条语句将book中的成员依次赋值给tie函数创建的tuple对象\\
-            $\bullet$ 由于tie函数创建的tuple包含4个对象的引用，所以有最终的输出结果\\
+            $\bullet$ 由于tie函数创建的tuple包含的是对象的引用，所以输出如上\\
         \end{yellowblock}
     \end{columns}
 \end{frame}
@@ -1446,6 +1444,13 @@ bitset<12> b2("110010"); //二进制序列为[0000 0011 0010]
             $\bullet$ bieset也可以由0和1组成的字符串常量初始化\\
         \end{yellowblock}
     \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{12.7~标准库特殊工具\small{——bitset类型}}
+    \begin{block}
+        {bitset}
+        固定长度的二进制序列，可以方便地进行逻辑运算，及与字符串和整数相互转换。
+    \end{block}
     \begin{columns}[T]
         \column{0.65\textwidth}
         \begin{blueblock}
@@ -1537,8 +1542,8 @@ using namespace chrono;
 time_t tt = system_clock::to_time_t(system_clock::now());
 cout << put_time(gmtime(&tt), "%F %T" ) << endl;
 \end{lstlisting}
-在我们测试中，上述代码输出为：\\
-2017-12-09 20:15:08\\
+            在我们测试中，上述代码输出为：\\
+            2017-12-09 20:15:08\\
         \end{blueblock}
         \column{0.3\textwidth}
         \begin{yellowblock}
@@ -1546,13 +1551,13 @@ cout << put_time(gmtime(&tt), "%F %T" ) << endl;
             $\bullet$ 成员函数now可获得数据成员的时间点time\_point\\
             $\bullet$ high\_resolution\_clock相比system\_clock精度要高\\
         \end{yellowblock}
-            \begin{yellowblock}
-                {说明~2}
-            获取标准日历形式输出：\\
-            $\bullet$ 通过to\_time\_t将time\_point转换为time\_t类型，然后通过gmtime转换为日历时间\\
-            $\bullet$ 再借助iomanip库中的put\_time函数将日历时间转换成各种时间书写形式
-        \end{yellowblock}
     \end{columns}
+    \begin{yellowblock}
+        {说明~2}
+        获取标准日历形式输出：\\
+        $\bullet$ 通过to\_time\_t将time\_point转换为time\_t类型，然后通过gmtime转换为日历时间\\
+        $\bullet$ 再借助iomanip库中的put\_time函数将日历时间转换成各种时间书写形式
+    \end{yellowblock}
 \end{frame}
 
 \begin{frame}[fragile]{12.7~标准库特殊工具\small{——日期和时间}}
@@ -1574,18 +1579,18 @@ cout << interval.count() << endl;
             $\bullet$ 两个time\_point类型相减得到duration类型用于表示时间段\\
             $\bullet$ 转换函数duration\_cast将时间段转换成特定的时间单位，如毫秒等\\
             $\bullet$ 最后使用duration的成员函数count获取最终结果\\
-        \end{yellowblock}
-            \begin{redblock}
-                {注意}
-                考虑到测量时间间隔需要稳定不变的时钟，代码中使用的时钟是steady\_clock。
-        \end{redblock}
+        \end{yellowblock} 
     \end{columns}
+    \begin{redblock}
+        {注意}
+        考虑到测量时间间隔需要稳定不变的时钟，代码中使用的时钟是steady\_clock。
+    \end{redblock}
 \end{frame}
 
 \begin{frame}[c]{~}
-	\begin{center}
-		\huge{本章结束}
-	\end{center}
+    \begin{center}
+        \huge{本章结束}
+    \end{center}
 \end{frame}
 
 \end{document}
