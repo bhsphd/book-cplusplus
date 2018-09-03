@@ -404,7 +404,7 @@ try{
         \column{0.3\textwidth}
         \begin{yellowblock}
             {说明}
-            $\bullet$ 一旦在try 语句块内部有异常抛出时，系统检查与该try块关联的catch子句，并寻找\alert{与异常相匹配的catch子句}。\\
+            一旦在try语句块内部有异常抛出时，系统检查与该try块关联的catch子句，并寻找\alert{与异常相匹配的catch子句}。\\
         \end{yellowblock}
     \end{columns}
 \end{frame}
@@ -425,7 +425,7 @@ catch (const char *str) {//捕获一个C风格字符串常量对象
         \column{0.3\textwidth}
         \begin{yellowblock}
             {说明}
-            $\bullet$ cerr为标准错误ostream对象用于输出程序错误信息。\\
+            $\bullet$ cerr为标准错误ostream对象，用于输出程序错误信息。\\
             $\bullet$ catch语句中的异常声明类似于只包含一个形参的函数形参列表。\\
             $\bullet$ 异常声明中的类型决定了该catch子句能够捕获的异常的类型\\
             $\bullet$ 能够捕获的错误类型可以为左值引用，但不能为右值引用。\\
@@ -456,7 +456,7 @@ catch (const char *str) {
         \end{lstlisting}
         \end{blueblock}
         \column{0.3\textwidth}
-        \begin{yellowblock}
+        \only<1>{\begin{yellowblock}
             {说明}
             异常被抛出后：
             \begin{enumerate}
@@ -468,12 +468,15 @@ catch (const char *str) {
         \begin{greenblock}
             {问题}
             异常被谁捕获？
-        \end{greenblock}
+        \end{greenblock}}
+        \only<2->{\begin{redblock}
+            {注意}
+            通常情况下，异常的类型和catch声明的类型要求严格匹配，但不包括以下情况：\\
+            $\bullet$ 非常量到常量的转换\\
+            $\bullet$ 派生类向基类的转换\\
+            $\bullet$ 数组或函数被转换成指向数组元素或函数的指针\\
+        \end{redblock}}
     \end{columns}
-    \begin{redblock}
-        {注意}
-        通常情况下，异常的类型和catch声明的类型要求严格匹配，但不包括以下情况：1）非常量到常量的转换；2）派生类向基类的转换；3）数组或函数被转换成指向数组元素或函数的指针。
-    \end{redblock}
 \end{frame}
 
 \subsection{使用标准库异常类}
@@ -490,7 +493,7 @@ catch (const char *str) {
 \end{frame}
 
 \begin{frame}[fragile]{12.2~异常处理\small{——标准库异常类}}
-    \textbf{what函数}返回一个const char*，指向一个以null结尾的字符数组，用于提示异常类型。我们可以继承exception类并重写what：\\
+    \textbf{what函数}返回一个const char*，指向一个以null结尾的字符数组，用于提示异常类型。我们可以继承exception类并\alert{重写what}：\\
     \begin{columns}[T]
         \column{0.65\textwidth}
         \begin{blueblock}
@@ -1045,6 +1048,7 @@ double Calculator::doIt(const string & exp) {
             {问题}
             如果形参未注册，调用create将会返回什么？
         \end{greenblock}
+        \pause
         \begin{greenblock}
             {思考}
             体会修改后代码和原始代码的区别以及改进之处
@@ -1075,7 +1079,7 @@ double Calculator::doIt(const string & exp) {
 
 \subsection{dynamic\_cast运算符}
 \begin{frame}[fragile]{12.5~运行时类型识别\small{——dynamic\_cast运算符}}
-    dynamic\_cast运算符用于\alert{基类和派生类}之间的安全转换，其使用方式有：
+    \textbf{dynamic\_cast运算符}用于\alert{基类和派生类}之间的安全转换，其使用方式有：
     \begin{columns}[T]
         \column{0.65\textwidth}
         \begin{blueblock}
@@ -1523,7 +1527,7 @@ cout << b.to_ullong() << endl; //输出1002
 
 \subsection{日期和时间}
 \begin{frame}[fragile]{12.7~标准库特殊工具\small{——日期和时间}}
-    C++提供chrono库对时间和日期进行操作，其包含三种时钟类：
+    C++提供\textbf{chrono库}对时间和日期进行操作，其包含三种时钟类：
     \begin{itemize}
         \item \texttt{system\_clock}
         \item \texttt{steady\_clock}
@@ -1583,7 +1587,7 @@ cout << interval.count() << endl;
     \end{columns}
     \begin{redblock}
         {注意}
-        考虑到测量时间间隔需要稳定不变的时钟，代码中使用的时钟是steady\_clock。
+        考虑到测量时间间隔需要稳定不变的时钟，代码中使用的时钟是steady\_clock
     \end{redblock}
 \end{frame}
 

@@ -579,14 +579,14 @@ lst1.splice(lst1.end(), lst3, lst3.begin(),it);
 	\end{itemize}
 	\begin{redblock}
 		{注意}
-		如果无法确定某种应用应该采用哪种容器，则编写代码时尝试只使用vector和list容器都提供的操作，方便以后进行转换。
+		如果无法确定某种应用应该采用哪种容器，则编写代码时尝试\alert{只使用vector和list容器都提供的操作}，方便以后进行转换。
 	\end{redblock}
 \end{frame}
 
 \subsection{关联容器}
 \begin{frame}[fragile]{11.2~容器\small{——关联容器}}
 	\begin{block}{关联容器}
-		不同于顺序容器，关联容器采用\alert{非线性}结构。通常情况下，关联容器是通过\alert{树结构}实现的，其元素通过\alert{关键字}来访问。STL中主要的两个关联容器是：
+		不同于顺序容器，关联容器采用\alert{非线性}结构。通常情况下，关联容器是通过\alert{树结构}实现的，并通过\alert{关键字}来访问其元素。STL中主要的两个关联容器是：
 		\begin{itemize}
 			\item \textbf{set}
 			\item \textbf{map}
@@ -701,11 +701,11 @@ cout << i.first << ": " << i.second << endl; //打印关键字和值
 		\end{blueblock}
 		\column{0.3\textwidth}
 		\begin{block}{map}
-			map与set类似，都是有序容器。但map中的元素是pair类型，第一个成员为用于索引的关键字，第二个成员为与关键字相关的值。
+			map与set类似，都是有序容器。但map中的元素是pair类型，第一个成员为用于索引的\alert{关键字}，第二个成员为与关键字相关的\alert{值}。
 		\end{block}
 		\only<1>{\begin{yellowblock}{说明}
 				$\bullet$ 下标运算用来获取与关键字关联的值\\
-				$\bullet$ 执行第四行代码时，如找到关键字为number的元素则其值自增，否则以此关键字生成新的元素\\
+				$\bullet$ 执行第四行代码时，如找到关键字对应元素则其值自增，否则以此关键字生成新的元素\\
 			\end{yellowblock}}
 		\only<2->{\begin{redblock}{注意}
 				由于下标运算可能会插入新元素。因此，它只能作用于\alert{非const的map对象}\\
