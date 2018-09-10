@@ -595,6 +595,17 @@ Course::~Course() {
 
 \begin{frame}[fragile]
     {9.2 构造、拷贝控制与继承\small{—拷贝控制与继承}}
+    \begin{block}{构造与析构过程}
+        ~~~~~~下图是派生类Student构造对象与析构对象过程示意图，绿色箭头表示构造过程，红色箭头表示析构过程。
+    \end{block}
+    \begin{figure}
+    \centering
+    \includegraphics[width=30em]{Fig/Constr-Destr.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}[fragile]
+    {9.2 构造、拷贝控制与继承\small{—拷贝控制与继承}}
     \begin{block}{复制、移动与继承}
         一个派生类对象在\alert{复制}或\alert{移动}的时候，除复制或移动自有成员外，还要复制或移动基类部分的成员。因此，通常在复制或移动构造函数的初始化列表中调用基类的\alert{复制或移动构造函数}。
     \begin{columns}
@@ -905,7 +916,7 @@ struct D2 : public D1 {
     \end{column}
     \begin{column}{0.94\linewidth}
     \begin{lstlisting}[numbers=left,numberstyle=\small,basicstyle=\normalsize\ttfamily]
-    class Cat { 
+    class Cat {
     protected:
         string m_name;
     public:
@@ -940,7 +951,7 @@ struct D2 : public D1 {
     public:
         void bark();
     };
-    Dog dog;          //创建一个Dog类对象 
+    Dog dog;          //创建一个Dog类对象
     dog.bark();       //调用bark函数
     \end{lstlisting}\ttfamily
     \end{column}
@@ -1237,7 +1248,7 @@ double Calculator::doIt(const string & exp){
                 calculate(); //根据栈顶运算符，执行相应计算
             }
             if( oo->symbol() != '=')//除=以外，其它运算符入栈
-                m_opr.push(std::move(oo));//将oo转换为右值，调用移动push函数 
+                m_opr.push(std::move(oo));//将oo转换为右值，调用移动push函数
         }
     }
     double result = m_num.top();
@@ -1257,4 +1268,4 @@ double Calculator::doIt(const string & exp){
 \end{center}
 \end{frame}
 
-\end{document}
+\end{document} 

@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018/W32TeX) (preloaded format=xelatex 2018.9.3)  6 SEP 2018 11:18
+This is XeTeX, Version 3.14159265-2.6-0.99999 (TeX Live 2018/W32TeX) (preloaded format=xelatex 2018.9.3)  10 SEP 2018 11:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2149,8 +2149,11 @@ Overfull \vbox (5.87798pt too high) detected at line 584
 ]
 \openout4 = `Chapter9.vrb'.
 
- (./Chapter9.vrb)
-Overfull \vbox (8.25787pt too high) detected at line 622
+ (./Chapter9.vrb
+File: Fig/Constr-Destr.png Graphic file (type bmp)
+<Fig/Constr-Destr.png>
+)
+Overfull \vbox (22.37395pt too high) detected at line 605
  []
 
 [24
@@ -2158,21 +2161,25 @@ Overfull \vbox (8.25787pt too high) detected at line 622
 ]
 \openout4 = `Chapter9.vrb'.
 
- (./Chapter9.vrb) [25
+ (./Chapter9.vrb)
+Overfull \vbox (8.25787pt too high) detected at line 633
+ []
+
+[25
+
+]
+\openout4 = `Chapter9.vrb'.
+
+ (./Chapter9.vrb) [26
 
 ]
 \openout4 = `Chapter9.vrb'.
 
  (./Chapter9.vrb)
-Overfull \vbox (20.90576pt too high) detected at line 677
+Overfull \vbox (20.90576pt too high) detected at line 688
  []
 
-[26
-
-]
-\openout4 = `Chapter9.vrb'.
-
- (./Chapter9.vrb) [27
+[27
 
 ]
 \openout4 = `Chapter9.vrb'.
@@ -2187,27 +2194,27 @@ Overfull \vbox (20.90576pt too high) detected at line 677
 ]
 \openout4 = `Chapter9.vrb'.
 
-
-(./Chapter9.vrb) [30
+ (./Chapter9.vrb) [30
 
 ]
 \openout4 = `Chapter9.vrb'.
 
- (./Chapter9.vrb) [31
+
+(./Chapter9.vrb) [31
+
+]
+\openout4 = `Chapter9.vrb'.
+
+ (./Chapter9.vrb) [32
 
 ]
 \openout4 = `Chapter9.vrb'.
 
  (./Chapter9.vrb)
-Overfull \vbox (12.49681pt too high) detected at line 821
+Overfull \vbox (12.49681pt too high) detected at line 832
  []
 
-[32
-
-]
-\openout4 = `Chapter9.vrb'.
-
- (./Chapter9.vrb) [33
+[33
 
 ]
 \openout4 = `Chapter9.vrb'.
@@ -2222,22 +2229,22 @@ Overfull \vbox (12.49681pt too high) detected at line 821
 ]
 \openout4 = `Chapter9.vrb'.
 
+ (./Chapter9.vrb) [36
 
-(./Chapter9.vrb) [36
+]
+\openout4 = `Chapter9.vrb'.
+
+
+(./Chapter9.vrb) [37
 
 ]
 \openout4 = `Chapter9.vrb'.
 
  (./Chapter9.vrb)
-Overfull \vbox (9.74329pt too high) detected at line 928
+Overfull \vbox (9.74329pt too high) detected at line 939
  []
 
-[37
-
-]
-\openout4 = `Chapter9.vrb'.
-
- (./Chapter9.vrb) [38
+[38
 
 ]
 \openout4 = `Chapter9.vrb'.
@@ -2252,8 +2259,13 @@ Overfull \vbox (9.74329pt too high) detected at line 928
 ]
 \openout4 = `Chapter9.vrb'.
 
+ (./Chapter9.vrb) [41
 
-(./Chapter9.vrb) [41
+]
+\openout4 = `Chapter9.vrb'.
+
+
+(./Chapter9.vrb) [42
 
 ]
 \openout4 = `Chapter9.vrb'.
@@ -2261,7 +2273,7 @@ Overfull \vbox (9.74329pt too high) detected at line 928
  (./Chapter9.vrb
 File: Fig/question_fig.jpg Graphic file (type bmp)
 <Fig/question_fig.jpg>
-) [42
+) [43
 
 ]
 \openout4 = `Chapter9.vrb'.
@@ -2269,32 +2281,27 @@ File: Fig/question_fig.jpg Graphic file (type bmp)
  (./Chapter9.vrb
 File: Fig/Operator.png Graphic file (type bmp)
 <Fig/Operator.png>
-) [43
+) [44
 
 ]
 \openout4 = `Chapter9.vrb'.
 
 
-(./Chapter9.vrb) [44
+(./Chapter9.vrb) [45
 
 ]
 \openout4 = `Chapter9.vrb'.
 
- (./Chapter9.vrb) [45
+ (./Chapter9.vrb) [46
 
 ]
 \openout4 = `Chapter9.vrb'.
 
  (./Chapter9.vrb)
-Overfull \vbox (21.3868pt too high) detected at line 1130
+Overfull \vbox (21.3868pt too high) detected at line 1141
  []
 
-[46
-
-]
-\openout4 = `Chapter9.vrb'.
-
- (./Chapter9.vrb) [47
+[47
 
 ]
 \openout4 = `Chapter9.vrb'.
@@ -2309,18 +2316,14 @@ Overfull \vbox (21.3868pt too high) detected at line 1130
 ]
 \openout4 = `Chapter9.vrb'.
 
-
-(./Chapter9.vrb)
-Overfull \vbox (9.37508pt too high) detected at line 1222
- []
-
-[50
+ (./Chapter9.vrb) [50
 
 ]
 \openout4 = `Chapter9.vrb'.
 
- (./Chapter9.vrb)
-Overfull \vbox (21.37508pt too high) detected at line 1251
+
+(./Chapter9.vrb)
+Overfull \vbox (9.37508pt too high) detected at line 1233
  []
 
 [51
@@ -2328,7 +2331,16 @@ Overfull \vbox (21.37508pt too high) detected at line 1251
 ]
 \openout4 = `Chapter9.vrb'.
 
- (./Chapter9.vrb) [52
+ (./Chapter9.vrb)
+Overfull \vbox (21.37508pt too high) detected at line 1262
+ []
+
+[52
+
+]
+\openout4 = `Chapter9.vrb'.
+
+ (./Chapter9.vrb) [53
 
 ]
 \tf@nav=\write6
@@ -2340,22 +2352,22 @@ Overfull \vbox (21.37508pt too high) detected at line 1251
 \tf@snm=\write8
 \openout8 = `Chapter9.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1260.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1260.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1271.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1271.
  (./Chapter9.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1260.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1260.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 1271.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1271.
 
 Package rerunfilecheck Info: File `Chapter9.out' has not changed.
 (rerunfilecheck)             Checksum: 85B60891733C01CBADC16E1CD2B4E918.
  ) 
 Here is how much of TeX's memory you used:
- 35887 strings out of 492970
- 735068 string characters out of 6137299
+ 35895 strings out of 492970
+ 735201 string characters out of 6137299
  929702 words of memory out of 5000000
- 39193 multiletter control sequences out of 15000+600000
+ 39198 multiletter control sequences out of 15000+600000
  532669 words of font info for 61 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  62i,11n,74p,10414b,1751s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Chapter9.pdf (52 pages).
+Output written on Chapter9.pdf (53 pages).
